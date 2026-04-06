@@ -3,533 +3,725 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cam Krolik - Soluções Completas</title>
-    <meta name="description" content="Chatbot WhatsApp, Telezapy, KIP Consumível, KIP Ilimitado e KIA com IA">
+    <title>Cam Krolik — Calculadora de Planos</title>
+    <meta name="description" content="Calcule o valor ideal para CAM, Telezapy, KIP Consumível, KIP Ilimitado e KIA">
 
-    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="icon" href="assets/images/ico.svg" sizes="32x32" type="image/png">
+
+    <!-- Rubik (Google Fonts) -->
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
-        :root {
-            --roxo-escuro: #4B0F3B;
-            --roxo-medio: #6A1B5D;
-            --roxo-claro: #8E3A7A;
-            --rosa-vibrante: #E5006D;
-            --rosa-medio: #F04A8A;
-            --rosa-claro: #FF7AA8;
+    /* ============================================================
+       DESIGN TOKENS  (espelham o DS Cam Krolik)
+       ============================================================ */
+    :root {
+        --purple:      #4f0a4f;   /* color14 – roxo principal         */
+        --pink:        #d50273;   /* color32 – rosa vibrante          */
+        --lavender:    #e9bce9;   /* color16 – lavanda claro          */
+        --mid-rose:    #802b52;   /* color17 – rosa médio             */
+        --cream:       #fff4e9;   /* color10 – creme quente           */
+
+        --radius:      1.25rem;
+        --radius-sm:   0.75rem;
+        --shadow:      0 8px 32px rgba(79,10,79,.10);
+        --shadow-hover:0 18px 52px rgba(213,2,115,.16);
+        --transition:  all .3s ease;
+    }
+
+    /* ============================================================
+       RESET / BASE
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+        padding-top: 96px;
+        background-image: url("assets/images/bgkrolik_f373415b4d3f.png");
+        background-size: cover;
+        background-position: center top;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        font-family: 'Rubik', 'Segoe UI', sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        color: var(--purple);
+        min-height: 100vh;
+    }
+
+    input, select, button, label { font-family: inherit; }
+
+    /* ============================================================
+       GRID
+       ============================================================ */
+    .container {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 24px;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -12px;
+    }
+
+    [class^="col-"] { padding: 0 12px; min-width: 0; }
+
+    .col-4  { flex: 0 0 33.333%; max-width: 33.333%; }
+    .col-5  { flex: 0 0 41.667%; max-width: 41.667%; }
+    .col-6  { flex: 0 0 50%;     max-width: 50%;     }
+    .col-7  { flex: 0 0 58.333%; max-width: 58.333%; }
+    .col-8  { flex: 0 0 66.667%; max-width: 66.667%; }
+    .col-10 { flex: 0 0 83.333%; max-width: 83.333%; }
+
+    .offset-1 { margin-left: 8.333%;  }
+    .offset-2 { margin-left: 16.667%; }
+    .offset-3 { margin-left: 25%;     }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+    .site-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 88px;
+        z-index: 9000;
+        display: flex;
+        align-items: center;
+        background: rgba(255,255,255,.96);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 4px 24px rgba(79,10,79,.09);
+        transition: height .25s ease, box-shadow .25s ease, transform .3s ease;
+    }
+
+    .site-header.is-scrolled {
+        height: 72px;
+        box-shadow: 0 4px 30px rgba(79,10,79,.15);
+    }
+
+    .site-header.is-hidden { transform: translateY(-110%); }
+
+    .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 1.5rem;
+    }
+
+    .header-logo img {
+        height: 50px;
+        width: auto;
+        display: block;
+    }
+
+    .header-nav {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        list-style: none;
+    }
+
+    .header-nav a {
+        font-weight: 500;
+        font-size: .95rem;
+        color: var(--purple);
+        text-decoration: none;
+        letter-spacing: .02em;
+        transition: color .2s;
+    }
+
+    .header-nav a:hover { color: var(--pink); }
+
+    .header-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: .5rem 1.25rem;
+        border: 2px solid var(--purple);
+        border-radius: var(--radius-sm);
+        color: var(--purple);
+        font-weight: 600;
+        font-size: .9rem;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: var(--transition);
+    }
+
+    .header-btn:hover {
+        background: var(--purple);
+        color: #fff;
+    }
+
+    /* Hamburger */
+    .menu-toggle {
+        display: none;
+        width: 44px;
+        height: 44px;
+        border: 1.5px solid var(--lavender);
+        border-radius: var(--radius-sm);
+        background: #fff;
+        color: var(--purple);
+        font-size: 1.15rem;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    /* Responsive dropdown */
+    .responsive-menu {
+        display: none;
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 24px;
+        right: 24px;
+        background: #fff;
+        border-radius: var(--radius);
+        box-shadow: 0 12px 40px rgba(79,10,79,.15);
+        padding: 1rem 1.5rem;
+        z-index: 1000;
+    }
+
+    .responsive-menu.open { display: block; }
+
+    .responsive-menu ul { list-style: none; }
+
+    .responsive-menu li + li { margin-top: .4rem; }
+
+    .responsive-menu a {
+        display: block;
+        padding: .75rem .5rem;
+        font-weight: 500;
+        color: var(--purple);
+        text-decoration: none;
+        border-bottom: 1px solid var(--lavender);
+        transition: color .2s;
+    }
+
+    .responsive-menu li:last-child a { border-bottom: none; }
+    .responsive-menu a:hover { color: var(--pink); }
+
+    /* ============================================================
+       SECTIONS
+       ============================================================ */
+    .calc-section { padding: 3rem 0; }
+
+    .section-white {
+        background: rgba(255,255,255,.97);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 3rem 2.5rem;
+    }
+
+    /* ============================================================
+       SECTION TITLE
+       ============================================================ */
+    .section-title {
+        font-weight: 900;
+        font-size: 2rem;
+        color: var(--purple);
+        text-align: center;
+        letter-spacing: -.02em;
+        margin-bottom: 2.5rem;
+        position: relative;
+        padding-bottom: .75rem;
+    }
+
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 56px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--purple), var(--pink));
+        border-radius: 2px;
+        margin: .6rem auto 0;
+    }
+
+    /* ============================================================
+       CARDS
+       ============================================================ */
+    .calc-card {
+        background: #fff;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border: 1.5px solid var(--lavender);
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        transition: var(--transition);
+    }
+
+    .calc-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .calc-card-header {
+        background: var(--purple);
+        color: #fff;
+        font-weight: 700;
+        font-size: .92rem;
+        text-align: center;
+        padding: .9rem 1.25rem;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+    }
+
+    .calc-card-header.accent { background: var(--pink); }
+    .calc-card-header.muted  { background: #6c757d; }
+
+    .calc-card-body { padding: 1.5rem; }
+
+    /* ============================================================
+       QUANTITY CONTROL
+       ============================================================ */
+    .qty-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .qty-wrap button {
+        width: 38px;
+        height: 38px;
+        border: 2px solid var(--pink);
+        background: #fff;
+        color: var(--pink);
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        font-size: .9rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: var(--transition);
+    }
+
+    .qty-wrap button:hover {
+        background: var(--pink);
+        color: #fff;
+    }
+
+    .qty-wrap input[type="number"] {
+        width: 72px;
+        height: 38px;
+        text-align: center;
+        border: 2px solid var(--lavender);
+        border-radius: var(--radius-sm);
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--purple);
+        background: #fff;
+        padding: 0 6px;
+        outline: none;
+        transition: border-color .2s;
+        -moz-appearance: textfield;
+    }
+
+    .qty-wrap input[type="number"]::-webkit-inner-spin-button,
+    .qty-wrap input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+    .qty-wrap input[type="number"]:focus { border-color: var(--pink); }
+
+    /* ============================================================
+       SUMMARY BOX
+       ============================================================ */
+    .summary-box {
+        background: linear-gradient(135deg, rgba(79,10,79,.03), rgba(213,2,115,.06));
+        border: 2px solid var(--pink);
+        border-radius: var(--radius);
+        padding: 2.25rem 2.5rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .summary-box h4 {
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--purple);
+        margin-bottom: .75rem;
+    }
+
+    .summary-box h3 {
+        font-weight: 800;
+        font-size: 1.4rem;
+        color: var(--pink);
+        margin: .5rem 0;
+    }
+
+    .summary-box p {
+        color: var(--purple);
+        font-size: .95rem;
+        margin: .35rem 0;
+    }
+
+    .summary-box hr {
+        border: none;
+        border-top: 1px solid var(--lavender);
+        margin: 1rem 0;
+    }
+
+    .price-display {
+        font-weight: 900;
+        font-size: 2.8rem;
+        color: var(--pink);
+        line-height: 1;
+        margin: .75rem 0 1rem;
+        letter-spacing: -.03em;
+    }
+
+    /* ============================================================
+       RADIO LIST
+       ============================================================ */
+    .radio-list { list-style: none; }
+
+    .radio-list li { border-bottom: 1px solid var(--lavender); }
+    .radio-list li:last-child { border-bottom: none; }
+
+    .radio-list li label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: .85rem 1.25rem;
+        cursor: pointer;
+        font-size: .95rem;
+        color: var(--purple);
+        transition: background .2s;
+    }
+
+    .radio-list li label:hover { background: rgba(213,2,115,.05); }
+
+    .radio-list li input[type="radio"] {
+        width: auto;
+        margin: 0 .6rem 0 0;
+        accent-color: var(--pink);
+        flex-shrink: 0;
+    }
+
+    .radio-list .fw-bold {
+        color: var(--pink);
+        font-weight: 700;
+    }
+
+    /* ============================================================
+       TABLE
+       ============================================================ */
+    #tabelaCanaisIlimitado {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    #tabelaCanaisIlimitado th {
+        background: var(--purple);
+        color: #fff;
+        padding: .85rem 1rem;
+        font-weight: 700;
+        font-size: .88rem;
+        text-align: center;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+    }
+
+    #tabelaCanaisIlimitado td {
+        padding: .75rem 1rem;
+        text-align: center;
+        border-bottom: 1px solid var(--lavender);
+        color: var(--purple);
+        font-size: .95rem;
+    }
+
+    #tabelaCanaisIlimitado tbody tr { cursor: pointer; transition: background .2s; }
+    #tabelaCanaisIlimitado tbody tr:hover { background: rgba(213,2,115,.05); }
+
+    #tabelaCanaisIlimitado tbody tr.active {
+        background: rgba(213,2,115,.10);
+        font-weight: 700;
+        color: var(--pink);
+    }
+
+    /* ============================================================
+       ALERT
+       ============================================================ */
+    .alert-regional {
+        background: rgba(233,188,233,.25);
+        border: 1.5px solid var(--pink);
+        color: var(--purple);
+        border-radius: var(--radius-sm);
+        padding: .9rem 1.25rem;
+        margin-bottom: 1.5rem;
+        font-size: .9rem;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    /* ============================================================
+       MODULES SCROLL
+       ============================================================ */
+    .modules-scroll {
+        max-height: 320px;
+        overflow-y: auto;
+        padding: .25rem 0;
+    }
+
+    .modules-scroll::-webkit-scrollbar { width: 4px; }
+    .modules-scroll::-webkit-scrollbar-thumb {
+        background: var(--lavender);
+        border-radius: 4px;
+    }
+
+    .modules-scroll h6 {
+        font-weight: 700;
+        color: var(--purple);
+        margin: 1rem 0 .5rem;
+        font-size: .75rem;
+        text-transform: uppercase;
+        letter-spacing: .09em;
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        margin-bottom: .4rem;
+        font-size: .9rem;
+        color: var(--purple);
+    }
+
+    .form-check input[type="checkbox"] {
+        width: auto;
+        margin: 0 .55rem 0 0;
+        accent-color: var(--pink);
+        flex-shrink: 0;
+    }
+
+    /* ============================================================
+       CALC BOX
+       ============================================================ */
+    .calc-box {
+        background: rgba(233,188,233,.15);
+        border: 1.5px solid var(--lavender);
+        border-radius: var(--radius-sm);
+        padding: 1.25rem;
+        margin-top: 1.25rem;
+    }
+
+    .calc-box h6 {
+        text-align: center;
+        font-weight: 700;
+        color: var(--purple);
+        margin-bottom: .85rem;
+        font-size: .88rem;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+    }
+
+    .calc-box select,
+    .calc-box input[type="number"] {
+        display: block;
+        width: 100%;
+        margin-bottom: .6rem;
+        padding: .55rem .75rem;
+        border: 1.5px solid var(--lavender);
+        border-radius: .5rem;
+        font-size: .9rem;
+        color: var(--purple);
+        background: #fff;
+        outline: none;
+        transition: border-color .2s;
+        -moz-appearance: none;
+    }
+
+    .calc-box select:focus,
+    .calc-box input[type="number"]:focus { border-color: var(--pink); }
+
+    .result-minutes {
+        margin-top: .75rem;
+        text-align: center;
+        font-weight: 800;
+        color: var(--pink);
+        font-size: 1.15rem;
+    }
+
+    /* ============================================================
+       BUTTON
+       ============================================================ */
+    .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: .7rem 1.25rem;
+        background: linear-gradient(135deg, var(--purple) 0%, var(--pink) 100%);
+        color: #fff;
+        font-weight: 700;
+        font-size: .92rem;
+        border: none;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        letter-spacing: .04em;
+        transition: var(--transition);
+    }
+
+    .btn-primary:hover {
+        opacity: .88;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(213,2,115,.30);
+    }
+
+    /* ============================================================
+       UTILITY
+       ============================================================ */
+    .text-center { text-align: center; }
+    .fw-bold     { font-weight: 700; }
+    .mt-2  { margin-top: 1rem; }
+    .mt-3  { margin-top: 1.5rem; }
+    .mt-4  { margin-top: 2rem; }
+    .mt-5  { margin-top: 3rem; }
+    .mb-2  { margin-bottom: 1rem; }
+    .mb-3  { margin-bottom: 1.5rem; }
+    .mb-4  { margin-bottom: 2rem; }
+    .pt-3  { padding-top: 1.5rem; }
+
+    /* ============================================================
+       WHATSAPP FLOAT
+       ============================================================ */
+    .whatsapp-float {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        z-index: 9999;
+        line-height: 0;
+        display: block;
+        transition: transform .3s;
+    }
+
+    .whatsapp-float:hover { transform: scale(1.12); }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+        margin-top: 4rem;
+        padding: 2rem 0 3rem;
+        text-align: center;
+        color: var(--purple);
+        font-size: .88rem;
+        opacity: .65;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px) {
+        .header-nav, .header-btn { display: none; }
+        .menu-toggle { display: inline-flex; }
+    }
+
+    @media (max-width: 768px) {
+        .col-4, .col-5, .col-6, .col-7, .col-8, .col-10 {
+            flex: 0 0 100%;
+            max-width: 100%;
         }
-
-        /* Header */
-        header.site-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 9000;
-            background: transparent;
-            border-bottom: 1px solid transparent;
-            box-shadow: none;
-            height: 136px;
-            display: flex;
-            align-items: center;
-            transform: translateY(0);
-            transition: transform 0.3s ease, height 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
-        }
-
-        header.site-header.is-hidden {
-            transform: translateY(-110%);
-        }
-
-        header.site-header.is-scrolled {
-            height: 120px;
-            background: rgba(255, 255, 255, 0.96);
-            box-shadow: 0 8px 28px rgba(75,15,59,0.12);
-        }
-
-        header.site-header .header-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-        }
-
-        header.site-header .logo img {
-            height: 76px;
-            width: auto;
-            display: block;
-        }
-
-        .menu-toggle {
-            display: none;
-            width: 84px;
-            height: 84px;
-            border: 1px solid #efcfe0;
-            border-radius: 16px;
-            background: #fff;
-            color: var(--roxo-medio);
-            font-size: 2.2rem;
-            padding: 0;
-            line-height: 1;
-            cursor: pointer;
-        }
-
-        header.site-header nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            gap: 4rem;
-        }
-
-        header.site-header nav ul li a {
-            color: var(--roxo-medio);
-            font-weight: 600;
-            font-size: 1.9rem;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        header.site-header nav ul li a:hover {
-            color: var(--rosa-vibrante);
-        }
-
-        .responsive-menu {
-            display: none;
-        }
-
-        .responsive-menu.open {
-            display: block;
-            position: absolute;
-            top: calc(100% + 20px);
-            right: 0;
-            left: 0;
-            background: #fff;
-            border: 1px solid #f0e0ea;
-            border-radius: 24px;
-            box-shadow: 0 12px 34px rgba(75,15,59,0.15);
-            padding: 1.7rem 2rem;
-        }
-
-        .responsive-menu ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .responsive-menu li + li {
-            margin-top: 0.7rem;
-        }
-
-        .responsive-menu a {
-            display: block;
-            text-decoration: none;
-            color: var(--roxo-medio);
-            font-weight: 600;
-            font-size: 1.9rem;
-            padding: 0.9rem 0.3rem;
-        }
-
-        body {
-margin-top: 176px;
-background-image: url("assets/images/ceu2.jpg");
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-background-attachment: fixed;
-font-family: 'Raleway', 'Segoe UI', sans-serif;
-color: #2c3e50;
-min-height: 100vh;
-}
-
-        .header { margin-bottom: 4rem; text-align: center; }
-
-        .section { padding: 5rem 0; }
-
-        .section-title {
-            font-weight: 800;
-            font-size: 2.4rem;
-            background: linear-gradient(90deg, var(--rosa-vibrante), var(--rosa-medio));
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        /* Card */
-        .card {
-            border-radius: 20px;
-            box-shadow: 0 10px 35px rgba(75,15,59,0.08);
-            transition: all 0.35s ease;
-            background: #fff;
-            border: 1px solid #e1e1e1;
-            overflow: hidden;
-            margin-bottom: 2rem;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(229,0,109,0.15);
-        }
-
-        .card-header {
-            background: var(--roxo-escuro);
-            color: white;
-            font-weight: 600;
-            text-align: center;
-            padding: 1.2rem 1.5rem;
-            font-size: 1.1rem;
-        }
-
-        .card-body {
-            padding: 2rem;
-        }
-
-        /* Quantity control */
-        .qty-wrap {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .qty-wrap button {
-            width: 44px;
-            height: 38px;
-            line-height: 38px;
-            padding: 0;
-            margin: 0;
-            border: 1px solid var(--rosa-medio);
-            background: white;
-            color: var(--rosa-vibrante);
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.2s;
-        }
-
-        .qty-wrap button:hover {
-            background: var(--rosa-medio);
-            color: white;
-            border-color: var(--rosa-vibrante);
-        }
-
-        .qty-wrap input[type="number"] {
-            width: 80px !important;
-            text-align: center;
-            margin: 0 6px;
-            height: 38px;
-            padding: 0;
-            border-radius: 4px;
-        }
-
-        /* Summary box */
-        .summary-box {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 15px 45px rgba(229,0,109,0.12);
-            border: 1px solid var(--rosa-claro);
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .summary-box h3 { color: var(--rosa-vibrante); }
-
-        .price-display {
-            font-size: 2.8rem;
-            font-weight: 800;
-            color: var(--rosa-vibrante);
-            margin: 1rem 0;
-        }
-
-        /* Radio list */
-        .radio-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .radio-list li {
-            border-bottom: 1px solid #e1e1e1;
-        }
-
-        .radio-list li:last-child { border-bottom: none; }
-
-        .radio-list li label {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.9rem 1.5rem;
-            margin: 0;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .radio-list li label:hover { background: #ffeef5; }
-
-        .radio-list li input[type="radio"] {
-            width: auto;
-            margin: 0 0.7rem 0 0;
-            display: inline;
-        }
-
-        /* Table */
-        #tabelaCanaisIlimitado {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        #tabelaCanaisIlimitado th {
-            background: #f8f9fa;
-            padding: 0.8rem 1rem;
-            border-bottom: 2px solid #e1e1e1;
-        }
-
-        #tabelaCanaisIlimitado td {
-            padding: 0.8rem 1rem;
-            text-align: center;
-            border-bottom: 1px solid #e1e1e1;
-        }
-
-        #tabelaCanaisIlimitado tbody tr {
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        #tabelaCanaisIlimitado tbody tr:hover { background: #ffeef5; }
-
-        #tabelaCanaisIlimitado tbody tr.active {
-            background: #ff7aa830;
-            font-weight: 700;
-            color: var(--rosa-vibrante);
-        }
-
-        /* Alert */
-        .alert-regional {
-            background: #fff0f5;
-            border: 1px solid var(--rosa-claro);
-            color: var(--roxo-medio);
-            border-radius: 12px;
-            padding: 1.2rem 1.5rem;
-            margin-bottom: 2rem;
-            font-weight: 500;
-            text-align: center;
-        }
-
-        /* Section white card */
-        .section-white {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 15px 45px rgba(75,15,59,0.08);
-            padding: 4rem 3rem;
-        }
-
-        /* Modules scroll */
-        .modules-scroll {
-            max-height: 380px;
-            overflow-y: auto;
-        }
-
-        .modules-scroll h6 {
-            font-weight: 600;
-            color: var(--roxo-medio);
-            margin: 1.5rem 0 0.8rem;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .form-check {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.6rem;
-        }
-
-        .form-check input[type="checkbox"] {
-            width: auto;
-            margin: 0 0.7rem 0 0;
-            display: inline;
-        }
-
-        /* Calc box */
-        .calc-box {
-            background: #f8f9fa;
-            border: 1px solid #e1e1e1;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .calc-box h6 {
-            text-align: center;
-            font-weight: 600;
-            color: var(--roxo-medio);
-            margin-bottom: 1rem;
-        }
-
-        .calc-box select,
-        .calc-box input[type="number"] {
-            width: 100%;
-            margin-bottom: 0.8rem;
-        }
-
-        .result-minutes {
-            margin-top: 1rem;
-            text-align: center;
-            font-weight: bold;
-            color: var(--rosa-vibrante);
-            font-size: 1.2rem;
-        }
-
-        /* Primary button */
-        .button-primary {
-            background: var(--rosa-vibrante) !important;
-            border-color: var(--rosa-vibrante) !important;
-            color: white !important;
-        }
-
-        .button-primary:hover {
-            background: var(--rosa-medio) !important;
-            border-color: var(--rosa-medio) !important;
-        }
-
-        /* WhatsApp float */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            z-index: 9999;
-            transition: transform 0.3s;
-        }
-
-        .whatsapp-float:hover { transform: scale(1.15); }
-
-        /* Utilities */
-        .text-center { text-align: center; }
-        .fw-bold { font-weight: 700; }
-        .pt-3 { padding-top: 2rem; }
-        .mt-4 { margin-top: 2rem; }
-        .mt-5 { margin-top: 3rem; }
-        .mb-2 { margin-bottom: 1rem; }
-        .mb-3 { margin-bottom: 1.5rem; }
-        .mb-4 { margin-bottom: 2rem; }
-        .float-right { float: right; }
-
-        footer { margin-top: 5rem; padding-bottom: 3rem; text-align: center; color: #888; }
-
-        @media (max-width: 900px) {
-            header.site-header .container {
-                position: relative;
-            }
-
-            header.site-header .main-nav {
-                display: none;
-            }
-
-            .menu-toggle {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 550px) {
-            header.site-header {
-                height: auto;
-                padding: 1.5rem 0;
-            }
-
-            header.site-header .header-inner {
-                justify-content: space-between;
-            }
-
-            body {
-                margin-top: 188px;
-            }
-
-            .section-title { font-size: 1.6rem; }
-            .section-white { padding: 2rem 1rem; }
-        }
+        .offset-1, .offset-2, .offset-3 { margin-left: 0; }
+        body         { padding-top: 76px; }
+        .site-header { height: 72px; }
+        .section-white    { padding: 1.75rem 1.25rem; }
+        .section-title    { font-size: 1.6rem; }
+        .price-display    { font-size: 2.2rem; }
+        .summary-box      { padding: 1.5rem 1rem; }
+        .container        { padding: 0 16px; }
+    }
     </style>
 </head>
 <body>
 
-    <a href="https://wa.me/558000420606" class="whatsapp-float">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="80" alt="Fale conosco pelo WhatsApp">
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/558000420606" class="whatsapp-float" title="Fale conosco pelo WhatsApp">
+        <img src="assets/images/whatsapp1_4178b10862d0.png" width="70" alt="WhatsApp Cam Krolik">
     </a>
+
+    <!-- HEADER -->
+    <header class="site-header" id="siteHeader">
+        <div class="container">
+            <div class="header-inner">
+
+                <div class="header-logo">
+                    <a href="https://usecam.krolik.com.br/" title="Cam Krolik — Home">
+                        <img src="assets/images/logo-krolik_17e8ab18cacb.png" alt="Cam Krolik">
+                    </a>
+                </div>
+
+                <nav aria-label="Navegação principal">
+                    <ul class="header-nav">
+                        <li><a href="https://usecam.krolik.com.br/">A Plataforma</a></li>
+                        <li><a href="https://wa.me/558000420606">Contato</a></li>
+                    </ul>
+                </nav>
+
+                <a href="https://app.camkrolik.com.br/login" class="header-btn">Login</a>
+
+                <button class="menu-toggle" id="menuToggle" type="button"
+                        aria-expanded="false" aria-controls="responsiveMenu" aria-label="Abrir menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+            </div>
+
+            <div id="responsiveMenu" class="responsive-menu" hidden>
+                <ul>
+                    <li><a href="https://usecam.krolik.com.br/">A Plataforma</a></li>
+                    <li><a href="https://wa.me/558000420606">Contato</a></li>
+                    <li><a href="https://app.camkrolik.com.br/login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
 
     <main>
 
-        <header class="site-header">
-                <div class="container">
-                    <div class="header-inner">
-                        <div class="logo">
-                            <a href="/" title="Home">
-                                <img src="assets/images/ico.svg" alt="Cam Krolik">
-                            </a>
-                        </div>
-
-                        <nav class="main-nav" aria-label="Navegacao principal">
-                            <ul>
-                                <li><a href="https://usecam.krolik.com.br/" title="A Plataforma">A Plataforma</a></li>
-                                <li><a href="https://wa.me/558000420606" title="Contato">Contato</a></li>
-                            </ul>
-                        </nav>
-
-                        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="responsiveMenu" aria-label="Abrir menu">
-                            <i class="fas fa-align-justify"></i>
-                        </button>
-
-                        <div id="responsiveMenu" class="responsive-menu" hidden>
-                            <ul>
-                                <li><a href="https://usecam.krolik.com.br/" title="A Plataforma">A Plataforma</a></li>
-                                <li><a href="https://wa.me/551640421700" title="Contato">Contato</a></li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-            </header>
-
-
-        <!-- CAM -->
-        <div class="container section">
-           <div class="section-white">
-                <h2 class="section-title">Plano CAM - Chatbot WhatsApp</h2>
+        <!-- ====================================================
+             CAM — Chatbot WhatsApp
+             ==================================================== -->
+        <div class="container calc-section">
+            <div class="section-white">
+                <h2 class="section-title">Plano CAM — Chatbot WhatsApp</h2>
 
                 <div class="row">
-                    <div class="four columns">
-                        <div class="card">
-                            <div class="card-header">Canais de Atendimento</div>
-                            <div class="card-body text-center pt-3">
+                    <div class="col-4">
+                        <div class="calc-card">
+                            <div class="calc-card-header">Canais de Atendimento</div>
+                            <div class="calc-card-body text-center pt-3">
                                 <div class="qty-wrap">
-                                    <button class="minus-cam"><i class="fas fa-minus"></i></button>
+                                    <button class="minus-cam" type="button"><i class="fas fa-minus"></i></button>
                                     <input type="number" class="inputQtdWhatsapp" value="1" min="1">
-                                    <button class="plus-cam"><i class="fas fa-plus"></i></button>
+                                    <button class="plus-cam"  type="button"><i class="fas fa-plus"></i></button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="four columns">
-                        <div class="card">
-                            <div class="card-header">Quantidade de Usuários</div>
-                            <div class="card-body text-center pt-3">
+                    <div class="col-4">
+                        <div class="calc-card">
+                            <div class="calc-card-header">Quantidade de Usuários</div>
+                            <div class="calc-card-body text-center pt-3">
                                 <div class="qty-wrap">
-                                    <button class="removeUser"><i class="fas fa-minus"></i></button>
+                                    <button class="removeUser" type="button"><i class="fas fa-minus"></i></button>
                                     <input type="number" class="inputQtdUser" value="1" min="1">
-                                    <button class="addUser"><i class="fas fa-plus"></i></button>
+                                    <button class="addUser"    type="button"><i class="fas fa-plus"></i></button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="four columns">
-                        <div class="card">
-                            <div class="card-header">Módulos & Extensões</div>
-                            <div class="card-body modules-scroll">
+                    <div class="col-4">
+                        <div class="calc-card">
+                            <div class="calc-card-header">Módulos &amp; Extensões</div>
+                            <div class="calc-card-body modules-scroll">
                                 <h6>Módulos</h6>
                                 <div class="form-check"><input type="checkbox" name="modulos" value="99.9"><label>Chatbot R$ 99,90</label></div>
                                 <div class="form-check"><input type="checkbox" name="modulos" value="69.9"><label>API R$ 69,90</label></div>
@@ -545,51 +737,53 @@ min-height: 100vh;
                 </div>
 
                 <div class="row mt-5">
-                    <div class="offset-by-three six columns">
+                    <div class="col-6 offset-3">
                         <div class="summary-box">
-                            <h4 class="mb-3">Valor Mensal Estimado - CAM</h4>
+                            <h4>Valor Mensal Estimado — CAM</h4>
                             <div class="price-display">R$ <span class="valorTotal">229,90</span></div>
                             <p>
-                                <strong class="totalCanais">1</strong> canal(is) •
+                                <strong class="totalCanais">1</strong> canal(is) &nbsp;•&nbsp;
                                 <strong class="totalUsuarios">1</strong> usuário(s)
                             </p>
                         </div>
-                    </div>          
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- TELEZAPY -->
-        <div class="container section">
+        <!-- ====================================================
+             TELEZAPY
+             ==================================================== -->
+        <div class="container calc-section">
             <div class="section-white">
                 <h2 class="section-title">Telezapy</h2>
 
                 <div class="row">
-                    <div class="seven columns">
-                        <div class="card">
-                            <div class="card-header">Packs de Usuários</div>
+                    <div class="col-7">
+                        <div class="calc-card">
+                            <div class="calc-card-header">Packs de Usuários</div>
                             <ul class="radio-list">
-                                <li><label><span><input type="radio" name="telezapyPack" value="398" data-range="02–07" checked> 02–07 usuários</span><span class="fw-bold">R$ 398</span></label></li>
-                                <li><label><span><input type="radio" name="telezapyPack" value="447" data-range="08–12"> 08–12 usuários</span><span class="fw-bold">R$ 447</span></label></li>
-                                <li><label><span><input type="radio" name="telezapyPack" value="547" data-range="13–20"> 13–20 usuários</span><span class="fw-bold">R$ 547</span></label></li>
-                                <li><label><span><input type="radio" name="telezapyPack" value="647" data-range="21–30"> 21–30 usuários</span><span class="fw-bold">R$ 647</span></label></li>
-                                <li><label><span><input type="radio" name="telezapyPack" value="797" data-range="31–40"> 31–40 usuários</span><span class="fw-bold">R$ 797</span></label></li>
-                                <li><label><span><input type="radio" name="telezapyPack" value="999" data-range="41–50"> 41–50 usuários</span><span class="fw-bold">R$ 999</span></label></li>
+                                <li><label><span><input type="radio" name="telezapyPack" value="398"  data-range="02–07" checked> 02–07 usuários</span><span class="fw-bold">R$ 398</span></label></li>
+                                <li><label><span><input type="radio" name="telezapyPack" value="447"  data-range="08–12"> 08–12 usuários</span><span class="fw-bold">R$ 447</span></label></li>
+                                <li><label><span><input type="radio" name="telezapyPack" value="547"  data-range="13–20"> 13–20 usuários</span><span class="fw-bold">R$ 547</span></label></li>
+                                <li><label><span><input type="radio" name="telezapyPack" value="647"  data-range="21–30"> 21–30 usuários</span><span class="fw-bold">R$ 647</span></label></li>
+                                <li><label><span><input type="radio" name="telezapyPack" value="797"  data-range="31–40"> 31–40 usuários</span><span class="fw-bold">R$ 797</span></label></li>
+                                <li><label><span><input type="radio" name="telezapyPack" value="999"  data-range="41–50"> 41–50 usuários</span><span class="fw-bold">R$ 999</span></label></li>
                             </ul>
                         </div>
                     </div>
 
-                    <div class="five columns">
-                        <div class="card">
-                            <div class="card-header">Adicionais</div>
-                            <div class="card-body">
-                                <label class="fw-bold">Canais extras (R$ 149,90 cada)</label>
+                    <div class="col-5">
+                        <div class="calc-card">
+                            <div class="calc-card-header">Adicionais</div>
+                            <div class="calc-card-body">
+                                <label class="fw-bold mb-2">Canais extras (R$ 149,90 cada)</label>
                                 <div class="qty-wrap mb-4">
-                                    <button class="minus-canal"><i class="fas fa-minus"></i></button>
+                                    <button class="minus-canal" type="button"><i class="fas fa-minus"></i></button>
                                     <input type="number" id="inputExtraCanais" value="0" min="0">
-                                    <button class="plus-canal"><i class="fas fa-plus"></i></button>
+                                    <button class="plus-canal"  type="button"><i class="fas fa-plus"></i></button>
                                 </div>
-                                <div class="form-check mt-4">
+                                <div class="form-check mt-3">
                                     <input type="checkbox" id="typebotCheck">
                                     <label for="typebotCheck">Adicionar Typebot <small style="color:#888;">(R$ 99,90/mês)</small></label>
                                 </div>
@@ -599,48 +793,49 @@ min-height: 100vh;
                 </div>
 
                 <div class="row mt-5">
-                    <div class="offset-by-three six columns">
+                    <div class="col-6 offset-3">
                         <div class="summary-box">
-                            <h4 class="mb-3">Resumo Telezapy</h4>
+                            <h4>Resumo Telezapy</h4>
                             <p><strong id="telezapyPackName">02–07 usuários</strong></p>
                             <p>Canais totais: <strong id="telezapyTotalCanais">1</strong> (+<strong id="telezapyExtraCanais">0</strong>)</p>
                             <p>Typebot: <strong id="telezapyTypebotStatus">Não</strong></p>
-                            <h3 style="color: var(--rosa-vibrante);">R$ <span id="telezapyValorTotal">398,00</span> <small>/mês</small></h3>
+                            <h3>R$ <span id="telezapyValorTotal">398,00</span> <small style="font-size:.95rem;font-weight:400;">/mês</small></h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- KIP CONSUMÍVEL -->
-        <div class="container section">
+        <!-- ====================================================
+             KIP CONSUMÍVEL
+             ==================================================== -->
+        <div class="container calc-section">
             <div class="section-white">
                 <h2 class="section-title">KIP Consumível</h2>
-                
+
                 <div class="row">
-                    <div class="four columns">
-                        <div class="card">
-                            <div class="card-header">Números (DIDs)</div>
-                            <div class="card-body text-center pt-3">
+                    <div class="col-4">
+                        <div class="calc-card">
+                            <div class="calc-card-header">Números (DIDs)</div>
+                            <div class="calc-card-body text-center pt-3">
                                 <div class="qty-wrap">
-                                    <button class="minus-did-cons"><i class="fas fa-minus"></i></button>
+                                    <button class="minus-did-cons" type="button"><i class="fas fa-minus"></i></button>
                                     <input type="number" id="qtdDidsCons" value="0" min="0">
-                                    <button class="plus-did-cons"><i class="fas fa-plus"></i></button>
+                                    <button class="plus-did-cons"  type="button"><i class="fas fa-plus"></i></button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="four columns">
-                        <div class="card" style="border: 2px solid var(--rosa-vibrante);">
-                            <div class="card-header" style="background: var(--rosa-vibrante);">Ramais Consumíveis</div>
-                            <div class="card-body text-center pt-3">
+                    <div class="col-4">
+                        <div class="calc-card" style="border-color: var(--pink);">
+                            <div class="calc-card-header accent">Ramais Consumíveis</div>
+                            <div class="calc-card-body text-center pt-3">
                                 <div class="qty-wrap mb-3">
-                                    <button class="minus-ramal-cons"><i class="fas fa-minus"></i></button>
+                                    <button class="minus-ramal-cons" type="button"><i class="fas fa-minus"></i></button>
                                     <input type="number" id="qtdRamaisCons" value="0" min="0">
-                                    <button class="plus-ramal-cons"><i class="fas fa-plus"></i></button>
+                                    <button class="plus-ramal-cons"  type="button"><i class="fas fa-plus"></i></button>
                                 </div>
-
                                 <div class="calc-box">
                                     <h6>Estimativa de Minutos</h6>
                                     <input type="number" id="valorConsumivel" value="0.00" step="0.01">
@@ -649,7 +844,7 @@ min-height: 100vh;
                                         <option value="0.14">R$ 0,14 – DDD</option>
                                         <option value="0.21" selected>R$ 0,21 – Celular</option>
                                     </select>
-                                    <button id="btnCalcularMinutos" class="button button-primary u-full-width">Calcular</button>
+                                    <button id="btnCalcularMinutos" class="btn-primary" type="button">Calcular</button>
                                     <div id="resultadoMinutos" class="result-minutes" style="display:none;">
                                         <span id="minutosTotais">0</span> minutos
                                     </div>
@@ -658,14 +853,14 @@ min-height: 100vh;
                         </div>
                     </div>
 
-                    <div class="four columns">
-                        <div class="card">
-                            <div class="card-header" style="background: #6c757d;">0800 (opcional)</div>
-                            <div class="card-body text-center pt-3">
+                    <div class="col-4">
+                        <div class="calc-card">
+                            <div class="calc-card-header muted">0800 (opcional)</div>
+                            <div class="calc-card-body text-center pt-3">
                                 <div class="qty-wrap">
-                                    <button class="minus-0800-cons"><i class="fas fa-minus"></i></button>
+                                    <button class="minus-0800-cons" type="button"><i class="fas fa-minus"></i></button>
                                     <input type="number" id="qtd0800Cons" value="0" min="0">
-                                    <button class="plus-0800-cons"><i class="fas fa-plus"></i></button>
+                                    <button class="plus-0800-cons"  type="button"><i class="fas fa-plus"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -673,22 +868,24 @@ min-height: 100vh;
                 </div>
 
                 <div class="row mt-5">
-                    <div class="offset-by-two eight columns">
+                    <div class="col-8 offset-2">
                         <div class="summary-box">
-                            <h4 class="mb-3">Resumo KIP Consumível</h4>
-                            <p><i class="fas fa-phone" style="color: var(--rosa-vibrante);"></i> DIDs: <strong id="totalDidsCons">0</strong> × R$ 38,90</p>
-                            <p><i class="fas fa-headset" style="color: var(--rosa-vibrante);"></i> Ramais: <strong id="totalRamaisCons">0</strong> × R$ 30,00</p>
-                            <p><i class="fas fa-phone-volume" style="color: var(--rosa-medio);"></i> 0800: <strong id="total0800Cons">0</strong> × R$ 125,00</p>
+                            <h4>Resumo KIP Consumível</h4>
+                            <p><i class="fas fa-phone" style="color:var(--pink);"></i> DIDs: <strong id="totalDidsCons">0</strong> × R$ 38,90</p>
+                            <p><i class="fas fa-headset" style="color:var(--pink);"></i> Ramais: <strong id="totalRamaisCons">0</strong> × R$ 30,00</p>
+                            <p><i class="fas fa-phone-volume" style="color:var(--mid-rose);"></i> 0800: <strong id="total0800Cons">0</strong> × R$ 125,00</p>
                             <hr>
-                            <h3 style="color: var(--rosa-vibrante);">Total mensal: R$ <span id="valorTotalCons">0,00</span></h3>
+                            <h3>Total mensal: R$ <span id="valorTotalCons">0,00</span></h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- KIP ILIMITADO -->
-        <div class="container section">
+        <!-- ====================================================
+             KIP ILIMITADO
+             ==================================================== -->
+        <div class="container calc-section">
             <div class="section-white">
                 <h2 class="section-title">KIP Ilimitado</h2>
 
@@ -698,10 +895,10 @@ min-height: 100vh;
                 </div>
 
                 <div class="row">
-                    <div class="offset-by-one ten columns">
-                        <div class="card">
-                            <div class="card-header">Selecione a quantidade de canais simultâneos</div>
-                            <div class="card-body">
+                    <div class="col-10 offset-1">
+                        <div class="calc-card">
+                            <div class="calc-card-header">Selecione a quantidade de canais simultâneos</div>
+                            <div class="calc-card-body">
                                 <table id="tabelaCanaisIlimitado">
                                     <thead>
                                         <tr><th>Canais Simultâneos</th><th>Valor Mensal Fixo</th></tr>
@@ -719,12 +916,12 @@ min-height: 100vh;
                                 </table>
 
                                 <div class="row mt-4">
-                                    <div class="offset-by-three six columns text-center">
-                                        <label class="fw-bold">Ramais extras (R$ 15,00 cada)</label>
+                                    <div class="col-6 offset-3 text-center">
+                                        <label class="fw-bold mb-2">Ramais extras (R$ 15,00 cada)</label>
                                         <div class="qty-wrap">
-                                            <button class="minus-ramal-ilim"><i class="fas fa-minus"></i></button>
+                                            <button class="minus-ramal-ilim" type="button"><i class="fas fa-minus"></i></button>
                                             <input type="number" id="qtdRamaisIlimitado" value="0" min="0">
-                                            <button class="plus-ramal-ilim"><i class="fas fa-plus"></i></button>
+                                            <button class="plus-ramal-ilim"  type="button"><i class="fas fa-plus"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -734,29 +931,31 @@ min-height: 100vh;
                 </div>
 
                 <div class="row mt-5">
-                    <div class="offset-by-two eight columns">
+                    <div class="col-8 offset-2">
                         <div class="summary-box">
-                            <h4 class="mb-3">Resumo KIP Ilimitado</h4>
-                            <p><i class="fas fa-phone" style="color: var(--rosa-vibrante);"></i> DIDs: <strong id="totalDidsIlim">0</strong> × R$ 38,90</p>
-                            <p><i class="fas fa-infinity" style="color: var(--rosa-vibrante);"></i> Canais selecionados: <strong id="totalCanaisIlimitado">1</strong></p>
-                            <p><i class="fas fa-headset" style="color: var(--rosa-vibrante);"></i> Ramais extras: <strong id="totalRamaisIlimitado">0</strong> × R$ 15,00</p>
+                            <h4>Resumo KIP Ilimitado</h4>
+                            <p><i class="fas fa-phone"   style="color:var(--pink);"></i> DIDs: <strong id="totalDidsIlim">0</strong> × R$ 38,90</p>
+                            <p><i class="fas fa-infinity" style="color:var(--pink);"></i> Canais selecionados: <strong id="totalCanaisIlimitado">1</strong></p>
+                            <p><i class="fas fa-headset" style="color:var(--pink);"></i> Ramais extras: <strong id="totalRamaisIlimitado">0</strong> × R$ 15,00</p>
                             <hr>
-                            <h3 style="color: var(--rosa-vibrante);">Total mensal: R$ <span id="valorTotalIlimitado">42,00</span></h3>
+                            <h3>Total mensal: R$ <span id="valorTotalIlimitado">42,00</span></h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- KIA -->
-        <div class="container section">
+        <!-- ====================================================
+             KIA — Inteligência Artificial
+             ==================================================== -->
+        <div class="container calc-section">
             <div class="section-white">
-                <h2 class="section-title">KIA - Inteligência Artificial Integrada</h2>
+                <h2 class="section-title">KIA — Inteligência Artificial Integrada</h2>
 
                 <div class="row">
-                    <div class="seven columns">
-                        <div class="card">
-                            <div class="card-header">Packs de Usuários + IA</div>
+                    <div class="col-7">
+                        <div class="calc-card">
+                            <div class="calc-card-header">Packs de Usuários + IA</div>
                             <ul class="radio-list">
                                 <li><label><span><input type="radio" name="kiaPack" value="498"  data-range="02–07" checked> 02–07 usuários</span><span class="fw-bold">R$ 498</span></label></li>
                                 <li><label><span><input type="radio" name="kiaPack" value="547"  data-range="08–12"> 08–12 usuários</span><span class="fw-bold">R$ 547</span></label></li>
@@ -768,15 +967,15 @@ min-height: 100vh;
                         </div>
                     </div>
 
-                    <div class="five columns">
-                        <div class="card">
-                            <div class="card-header">Adicionais KIA</div>
-                            <div class="card-body">
-                                <label class="fw-bold">Canais extras (R$ 149,90 cada)</label>
+                    <div class="col-5">
+                        <div class="calc-card">
+                            <div class="calc-card-header">Adicionais KIA</div>
+                            <div class="calc-card-body">
+                                <label class="fw-bold mb-2">Canais extras (R$ 149,90 cada)</label>
                                 <div class="qty-wrap mb-4">
-                                    <button class="minus-canal-kia"><i class="fas fa-minus"></i></button>
+                                    <button class="minus-canal-kia" type="button"><i class="fas fa-minus"></i></button>
                                     <input type="number" id="inputExtraCanaisKia" value="0" min="0">
-                                    <button class="plus-canal-kia"><i class="fas fa-plus"></i></button>
+                                    <button class="plus-canal-kia"  type="button"><i class="fas fa-plus"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -784,12 +983,12 @@ min-height: 100vh;
                 </div>
 
                 <div class="row mt-5">
-                    <div class="offset-by-three six columns">
+                    <div class="col-6 offset-3">
                         <div class="summary-box">
-                            <h4 class="mb-3">Resumo KIA</h4>
+                            <h4>Resumo KIA</h4>
                             <p><strong id="kiaPackName">02–07 usuários</strong></p>
                             <p>Canais totais: <strong id="kiaTotalCanais">1</strong> (+<strong id="kiaExtraCanais">0</strong>)</p>
-                            <h3 style="color: var(--rosa-vibrante);">R$ <span id="kiaValorTotal">498,00</span> <small>/mês</small></h3>
+                            <h3>R$ <span id="kiaValorTotal">498,00</span> <small style="font-size:.95rem;font-weight:400;">/mês</small></h3>
                         </div>
                     </div>
                 </div>
@@ -803,114 +1002,94 @@ min-height: 100vh;
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
     <script>
-    $(function() {
+    $(function () {
         const formatReal = v => v.toFixed(2).replace('.', ',');
 
-        // Header: aplica estado no scroll e controla menu responsivo
-        const $header = $('.site-header');
-        const $menuToggle = $('.menu-toggle');
+        /* ── Header scroll / responsive ── */
+        const $header        = $('#siteHeader');
+        const $menuToggle    = $('#menuToggle');
         const $responsiveMenu = $('#responsiveMenu');
-
         let lastScrollY = window.scrollY;
 
         function syncHeaderOnScroll() {
-            const currentScrollY = window.scrollY;
-            const scrollingDown = currentScrollY > lastScrollY;
-
-            $header.toggleClass('is-scrolled', currentScrollY > 16);
-
-            if (currentScrollY <= 10) {
-                $header.removeClass('is-hidden');
-                lastScrollY = currentScrollY;
-                return;
-            }
-
-            if (scrollingDown && currentScrollY > 40) {
-                $header.addClass('is-hidden');
-                closeResponsiveMenu();
-            } else {
-                $header.removeClass('is-hidden');
-            }
-
-            lastScrollY = currentScrollY;
+            const y = window.scrollY;
+            const down = y > lastScrollY;
+            $header.toggleClass('is-scrolled', y > 16);
+            if (y <= 10) { $header.removeClass('is-hidden'); lastScrollY = y; return; }
+            if (down && y > 40) { $header.addClass('is-hidden'); closeMenu(); }
+            else { $header.removeClass('is-hidden'); }
+            lastScrollY = y;
         }
 
-        function closeResponsiveMenu() {
+        function closeMenu() {
             $menuToggle.attr('aria-expanded', 'false');
             $responsiveMenu.removeClass('open').prop('hidden', true);
         }
 
-        $menuToggle.on('click', function() {
+        $menuToggle.on('click', function () {
             const isOpen = $responsiveMenu.hasClass('open');
-            if (isOpen) {
-                closeResponsiveMenu();
-                return;
-            }
-
+            if (isOpen) { closeMenu(); return; }
             $menuToggle.attr('aria-expanded', 'true');
             $responsiveMenu.addClass('open').prop('hidden', false);
         });
 
-        $(document).on('click', function(event) {
-            if (!$(event.target).closest('.site-header').length) {
-                closeResponsiveMenu();
-            }
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('#siteHeader').length) closeMenu();
         });
 
-        $('#responsiveMenu a').on('click', closeResponsiveMenu);
+        $('#responsiveMenu a').on('click', closeMenu);
 
-        $(window).on('resize', function() {
-            if (window.innerWidth > 900) {
-                closeResponsiveMenu();
-            }
+        $(window).on('resize', function () {
+            if (window.innerWidth > 900) closeMenu();
         });
 
         syncHeaderOnScroll();
         $(window).on('scroll', syncHeaderOnScroll);
 
-        // CAM
+        /* ── CAM ── */
         function updateCam() {
-            let canais = +$('.inputQtdWhatsapp').val() || 1;
-            let usuarios = +$('.inputQtdUser').val() || 1;
+            const canais   = +$('.inputQtdWhatsapp').val() || 1;
+            const usuarios = +$('.inputQtdUser').val()     || 1;
             let modulos = 0;
             $('input[name="modulos"]:checked').each((_, el) => modulos += +el.value || 0);
-            let total = 229.90 + Math.max(0, canais - 1) * 199.90 + Math.max(0, usuarios - 1) * 69.90 + modulos;
+            const total = 229.90 + Math.max(0, canais - 1) * 199.90 + Math.max(0, usuarios - 1) * 69.90 + modulos;
             $('.valorTotal').text(formatReal(total));
             $('.totalCanais').text(canais);
             $('.totalUsuarios').text(usuarios);
         }
+
         $('.inputQtdWhatsapp, .inputQtdUser, input[name="modulos"]').on('input change', updateCam);
-        $('.plus-cam').click(() => { $('.inputQtdWhatsapp').val((i, v) => +v + 1); updateCam(); });
+        $('.plus-cam').click(()  => { $('.inputQtdWhatsapp').val((i, v) => +v + 1);           updateCam(); });
         $('.minus-cam').click(() => { $('.inputQtdWhatsapp').val((i, v) => Math.max(1, +v - 1)); updateCam(); });
-        $('.addUser').click(() => { $('.inputQtdUser').val((i, v) => +v + 1); updateCam(); });
+        $('.addUser').click(()    => { $('.inputQtdUser').val((i, v) => +v + 1);              updateCam(); });
         $('.removeUser').click(() => { $('.inputQtdUser').val((i, v) => Math.max(1, +v - 1)); updateCam(); });
         updateCam();
 
-        // TELEZAPY
+        /* ── Telezapy ── */
         function updateTelezapy() {
-            const pack = $('input[name="telezapyPack"]:checked');
-            const base = +pack.val() || 398;
+            const pack   = $('input[name="telezapyPack"]:checked');
+            const base   = +pack.val() || 398;
             const extras = +$('#inputExtraCanais').val() || 0;
             const typebot = $('#typebotCheck').prop('checked') ? 99.90 : 0;
-            const total = base + extras * 149.90 + typebot;
+            const total  = base + extras * 149.90 + typebot;
             $('#telezapyPackName').text(pack.data('range') || '');
             $('#telezapyTotalCanais').text(1 + extras);
             $('#telezapyExtraCanais').text(extras);
             $('#telezapyTypebotStatus').text(typebot ? 'Sim' : 'Não');
             $('#telezapyValorTotal').text(formatReal(total));
         }
+
         $('input[name="telezapyPack"], #inputExtraCanais, #typebotCheck').on('change input', updateTelezapy);
-        $('.plus-canal').click(() => { $('#inputExtraCanais').val((i, v) => +v + 1); updateTelezapy(); });
+        $('.plus-canal').click(()  => { $('#inputExtraCanais').val((i, v) => +v + 1);           updateTelezapy(); });
         $('.minus-canal').click(() => { $('#inputExtraCanais').val((i, v) => Math.max(0, +v - 1)); updateTelezapy(); });
         updateTelezapy();
 
-        // KIP CONSUMÍVEL
+        /* ── KIP Consumível ── */
         function updateConsumivel() {
-            const dids = +$('#qtdDidsCons').val() || 0;
+            const dids  = +$('#qtdDidsCons').val()   || 0;
             const ramais = +$('#qtdRamaisCons').val() || 0;
-            const o800 = +$('#qtd0800Cons').val() || 0;
+            const o800  = +$('#qtd0800Cons').val()    || 0;
             const total = dids * 38.90 + ramais * 30 + o800 * 125;
             $('#totalDidsCons').text(dids);
             $('#totalRamaisCons').text(ramais);
@@ -918,62 +1097,64 @@ min-height: 100vh;
             $('#valorTotalCons').text(formatReal(total));
             $('#valorConsumivel').val((ramais * 30).toFixed(2));
         }
+
         $('#qtdDidsCons, #qtdRamaisCons, #qtd0800Cons').on('input change', updateConsumivel);
-        $('.plus-did-cons').click(() => { $('#qtdDidsCons').val((i, v) => +v + 1); updateConsumivel(); });
-        $('.minus-did-cons').click(() => { $('#qtdDidsCons').val((i, v) => Math.max(0, +v - 1)); updateConsumivel(); });
-        $('.plus-ramal-cons').click(() => { $('#qtdRamaisCons').val((i, v) => +v + 1); updateConsumivel(); });
+        $('.plus-did-cons').click(()    => { $('#qtdDidsCons').val((i, v) => +v + 1);            updateConsumivel(); });
+        $('.minus-did-cons').click(()   => { $('#qtdDidsCons').val((i, v) => Math.max(0, +v - 1)); updateConsumivel(); });
+        $('.plus-ramal-cons').click(()  => { $('#qtdRamaisCons').val((i, v) => +v + 1);           updateConsumivel(); });
         $('.minus-ramal-cons').click(() => { $('#qtdRamaisCons').val((i, v) => Math.max(0, +v - 1)); updateConsumivel(); });
-        $('.plus-0800-cons').click(() => { $('#qtd0800Cons').val((i, v) => +v + 1); updateConsumivel(); });
-        $('.minus-0800-cons').click(() => { $('#qtd0800Cons').val((i, v) => Math.max(0, +v - 1)); updateConsumivel(); });
+        $('.plus-0800-cons').click(()   => { $('#qtd0800Cons').val((i, v) => +v + 1);             updateConsumivel(); });
+        $('.minus-0800-cons').click(()  => { $('#qtd0800Cons').val((i, v) => Math.max(0, +v - 1)); updateConsumivel(); });
         updateConsumivel();
 
-        $('#btnCalcularMinutos').click(() => {
-            let v = +$('#valorConsumivel').val() || 0;
-            let t = +$('#tarifaMinuto').val() || 0.21;
+        $('#btnCalcularMinutos').click(function () {
+            const v = +$('#valorConsumivel').val() || 0;
+            const t = +$('#tarifaMinuto').val()    || 0.21;
             if (v <= 0) return;
-            let min = Math.floor(v / t);
-            $('#minutosTotais').text(min.toLocaleString('pt-BR'));
+            $('#minutosTotais').text(Math.floor(v / t).toLocaleString('pt-BR'));
             $('#resultadoMinutos').show();
         });
 
-        // KIP ILIMITADO
+        /* ── KIP Ilimitado ── */
         function updateIlimitado() {
-            const dids = +$('#qtdDidsCons').val() || 0;
-            const o800 = +$('#qtd0800Cons').val() || 0;
+            const dids     = +$('#qtdDidsCons').val()   || 0;
+            const o800     = +$('#qtd0800Cons').val()   || 0;
             const activeRow = $('#tabelaCanaisIlimitado tbody tr.active');
-            const base = +activeRow.data('valor') || 42;
-            const canais = +activeRow.data('canais') || 1;
+            const base     = +activeRow.data('valor')   || 42;
+            const canais   = +activeRow.data('canais')  || 1;
             const ramaisSip = +$('#qtdRamaisIlimitado').val() || 0;
-            const total = dids * 38.90 + o800 * 125 + base + ramaisSip * 15;
+            const total    = dids * 38.90 + o800 * 125 + base + ramaisSip * 15;
             $('#totalDidsIlim').text(dids);
             $('#totalCanaisIlimitado').text(canais);
             $('#totalRamaisIlimitado').text(ramaisSip);
             $('#valorTotalIlimitado').text(formatReal(total));
         }
+
         $('#qtdRamaisIlimitado').on('input change', updateIlimitado);
-        $('.plus-ramal-ilim').click(() => { $('#qtdRamaisIlimitado').val((i, v) => +v + 1); updateIlimitado(); });
+        $('.plus-ramal-ilim').click(()  => { $('#qtdRamaisIlimitado').val((i, v) => +v + 1);           updateIlimitado(); });
         $('.minus-ramal-ilim').click(() => { $('#qtdRamaisIlimitado').val((i, v) => Math.max(0, +v - 1)); updateIlimitado(); });
 
-        $('#tabelaCanaisIlimitado tbody tr').click(function() {
+        $('#tabelaCanaisIlimitado tbody tr').click(function () {
             $('#tabelaCanaisIlimitado tbody tr').removeClass('active');
             $(this).addClass('active');
             updateIlimitado();
         });
         updateIlimitado();
 
-        // KIA
+        /* ── KIA ── */
         function updateKia() {
-            const pack = $('input[name="kiaPack"]:checked');
-            const base = +pack.val() || 498;
+            const pack   = $('input[name="kiaPack"]:checked');
+            const base   = +pack.val() || 498;
             const extras = +$('#inputExtraCanaisKia').val() || 0;
-            const total = base + extras * 149.90;
+            const total  = base + extras * 149.90;
             $('#kiaPackName').text(pack.data('range'));
             $('#kiaTotalCanais').text(1 + extras);
             $('#kiaExtraCanais').text(extras);
             $('#kiaValorTotal').text(formatReal(total));
         }
+
         $('input[name="kiaPack"], #inputExtraCanaisKia').on('change input', updateKia);
-        $('.plus-canal-kia').click(() => { $('#inputExtraCanaisKia').val((i, v) => +v + 1); updateKia(); });
+        $('.plus-canal-kia').click(()  => { $('#inputExtraCanaisKia').val((i, v) => +v + 1);           updateKia(); });
         $('.minus-canal-kia').click(() => { $('#inputExtraCanaisKia').val((i, v) => Math.max(0, +v - 1)); updateKia(); });
         updateKia();
     });
