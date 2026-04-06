@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>Design System - Cam Krolik</title>
+<link href="assets/ico_1d0eee37336b.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/styles_96246fb4e9b2.css" rel="stylesheet"/>
+<link href="assets/responsive_432716715d58.css" rel="stylesheet"/>
+<link href="assets/chatbot_e688f9a6b12c.css" rel="stylesheet"/>
+<style>
+  /* Design System Navigation */
+  .ds-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999999;
+    background-color: var(--color14);
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+  .ds-nav a {
+    color: var(--color10);
+    font-family: Rubik;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 14px 18px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    transition: var(--transition2);
+  }
+  .ds-nav a:hover {
+    background-color: var(--color32);
+    color: #fff;
+  }
+
+  /* Design System Section Labels */
+  .ds-section-label {
+    font-family: Nunito;
+    font-weight: 800;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--color32);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .ds-section-title {
+    font-family: Nunito;
+    font-weight: 800;
+    font-size: 50px;
+    color: var(--color14);
+    margin-bottom: 40px;
+  }
+  .ds-divider {
+    border: 0;
+    border-top: 2px solid var(--color16);
+    margin: 0 0 60px 0;
+    opacity: 0.5;
+  }
+
+  /* Typography Spec Table */
+  .ds-type-row {
+    display: flex;
+    align-items: baseline;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(79,10,79,0.1);
+  }
+  .ds-type-row:last-child {
+    border-bottom: none;
+  }
+  .ds-type-name {
+    width: 200px;
+    min-width: 200px;
+    font-family: Rubik;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color32);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .ds-type-preview {
+    flex: 1;
+  }
+  .ds-type-spec {
+    width: 180px;
+    min-width: 180px;
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: #999;
+  }
+
+  /* Color Swatch */
+  .ds-swatch-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .ds-swatch {
+    width: 160px;
+  }
+  .ds-swatch-color {
+    width: 160px;
+    height: 100px;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .ds-swatch-label {
+    margin-top: 10px;
+    font-family: Rubik;
+    font-size: 13px;
+    color: var(--color1);
+    font-weight: 500;
+  }
+  .ds-swatch-value {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #999;
+  }
+
+  /* Surface Cards */
+  .ds-surface-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+  .ds-surface-card {
+    width: 280px;
+    height: 180px;
+    border-radius: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Rubik;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+  }
+  .ds-surface-card span {
+    background: rgba(255,255,255,0.85);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+
+  /* Component States Row */
+  .ds-states-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .ds-state-item {
+    text-align: center;
+  }
+  .ds-state-label {
+    display: block;
+    font-family: Rubik;
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Motion Gallery */
+  .ds-motion-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  .ds-motion-card {
+    width: 280px;
+    padding: 30px;
+    background: #fff;
+    border-radius: 1.25rem;
+    text-align: center;
+    border: 1px solid rgba(79,10,79,0.1);
+  }
+  .ds-motion-card:hover .ds-motion-target {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 45px 0 rgba(26,57,127, 0.15);
+  }
+  .ds-motion-target {
+    width: 80px;
+    height: 80px;
+    background-color: var(--color16);
+    border-radius: 1.25rem;
+    margin: 0 auto 20px;
+    transition: var(--transition2);
+  }
+  .ds-motion-label {
+    font-family: Rubik;
+    font-size: 14px;
+    color: var(--color14);
+    font-weight: 500;
+  }
+  .ds-motion-desc {
+    font-family: Rubik;
+    font-size: 12px;
+    color: #999;
+    margin-top: 5px;
+  }
+
+  /* Pulse animation demo */
+  .ds-pulse-target {
+    width: 80px;
+    height: 80px;
+    background-color: var(--color32);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: pulse-hex 2s infinite;
+  }
+
+  /* Transition demo on hover */
+  .ds-transition-demo {
+    transition: var(--transition);
+  }
+  .ds-motion-card:hover .ds-transition-demo {
+    transform: scale(1.15);
+  }
+
+  /* Icon grid */
+  .ds-icon-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  .ds-icon-item {
+    text-align: center;
+    width: 120px;
+  }
+  .ds-icon-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+  }
+  .ds-icon-item span {
+    display: block;
+    font-family: Rubik;
+    font-size: 12px;
+    color: #999;
+    margin-top: 8px;
+  }
+
+  /* Offset body for fixed nav */
+  body {
+    padding-top: 48px;
+  }
+
+  /* Fix for design system: hero section should not be fullscreen */
+  .ds-hero-section .rev_slider_wrapper {
+    height: 970px !important;
+  }
+
+  /* Layout demo boxes */
+  .ds-layout-demo {
+    background: rgba(79,10,79,0.05);
+    border: 2px dashed rgba(79,10,79,0.2);
+    border-radius: 0.625rem;
+    padding: 15px;
+    text-align: center;
+    font-family: Rubik;
+    font-size: 13px;
+    color: var(--color14);
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================== -->
+<!-- DESIGN SYSTEM NAVIGATION       -->
+<!-- ============================== -->
+<nav class="ds-nav">
+  <a href="#hero">Hero</a>
+  <a href="#typography">Typography</a>
+  <a href="#colors">Colors</a>
+  <a href="#components">Components</a>
+  <a href="#layout">Layout</a>
+  <a href="#motion">Motion</a>
+  <a href="#icons">Icons</a>
+</nav>
+
+<main class="active">
+
+<!-- ============================== -->
+<!-- 0) HERO - Exact Clone          -->
+<!-- ============================== -->
+<section id="hero" class="ds-hero-section">
+<div class="w-100">
+<div class="rev_slider_wrapper fullscreen-container" data-alias="notgeneric125" data-source="gallery" style="background-color: transparent; padding: 0px; overflow: visible; height: 970px;">
+<div class="rev_slider fullscreenbanner" style='display: block; background-image: url("assets/bgkrolik_f373415b4d3f.png"); background-repeat: no-repeat; background-size: cover; background-position: center center; margin-top: 0px; margin-bottom: 0px; height: 970px;'>
+<ul class="tp-revslider-mainul" style="visibility: visible; display: block; width: 100%; height: 100%; max-height: none; left: 0px;">
+<li class="tp-revslider-slidesli active-revslide" data-title="Design System" style="width: 100%; height: 100%; z-index: 20; visibility: inherit; opacity: 1;">
+<!-- LAYER NR. 1 - Image -->
+<div class="tp-parallax-wrap" style="position: absolute; display: block; visibility: visible; right: 100px; top: 211px; z-index: 1;"><div class="tp-loop-wrap" style="position:absolute;display:block;"><div class="tp-mask-wrap" style="position: absolute; display: block; transform: translate3d(0px, 0px, 0px);"><div class="tp-caption tp-resizeme" style="visibility: inherit; text-align: center; line-height: 0px; border-width: 0px; margin: 0px; padding: 0px; font-size: 60px; opacity: 1;"><img alt="Cam Krolik" src="assets/b2_1ea984198471.png" style="width: 549px; height: 547px; text-align: center; line-height: 0px; border-width: 0px; margin: 0px; padding: 0px; font-size: 60px;"/>
+</div></div></div></div>
+<!-- LAYER NR. 2 - Heading -->
+<div class="tp-parallax-wrap" style="position: absolute; display: block; visibility: visible; left: 375px; top: 300px; z-index: 1;"><div class="tp-loop-wrap" style="position:absolute;display:block;"><div class="tp-mask-wrap" style="position: absolute; display: block; transform: translate3d(0px, 0px, 0px);"><div class="tp-caption tp-resizeme" style="letter-spacing: 0px; font-weight: 800; font-family: Gilroy; color: rgb(79, 10, 79); visibility: inherit; text-align: left; line-height: 85px; border-width: 0px; margin: 0px; padding: 0px; font-size: 80px; opacity: 1;">Design System <br/> Cam Krolik.
+</div></div></div></div>
+<!-- LAYER NR. 3 - Description -->
+<div class="tp-parallax-wrap" style="position: absolute; display: block; visibility: visible; left: 375px; top: 489px; z-index: 1;"><div class="tp-loop-wrap" style="position:absolute;display:block;"><div class="tp-mask-wrap" style="position: absolute; display: block; transform: translate3d(0px, 0px, 0px);"><div class="tp-caption" style="line-height: 26px; font-family: Rubik; font-size: 16px; letter-spacing: 0px; font-weight: 400; color: rgb(103, 103, 103); visibility: inherit; text-align: left; border-width: 0px; margin: 0px; padding: 0px; opacity: 1;">
+Componentes, tipografia, cores e padroes visuais. <br/>
+Guia completo de referencia para manter consistencia <br/> em todos os pontos de contato da marca.
+</div></div></div></div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container text-center text-white">
+<h2 style="letter-spacing: 0;font-size: 5rem;font-family: Gilroy;color:#4f0a4f; font-align: center;"> Design System v1.0</h2>
+</div>
+</section>
+
+<!-- ============================== -->
+<!-- 1) TYPOGRAPHY                  -->
+<!-- ============================== -->
+<section id="typography">
+<div class="w-100 pt-120 pb-120">
+<div class="container">
+<span class="ds-section-label">Section 01</span>
+<div class="ds-section-title">Typography</div>
+<hr class="ds-divider"/>
+
+<!-- Heading 1 -->
+<div class="ds-type-row">
+  <div class="ds-type-name">Heading 1</div>
+  <div class="ds-type-preview">
+    <h1 style="margin:0;">Chatbot para atendimento</h1>
+  </div>
+  <div class="ds-type-spec">80px / 85px<br/>Gilroy 800</div>
+</div>
+
+<!-- Heading 2 -->
+<div class="ds-type-row">
+  <div class="ds-type-name">Heading 2</div>
+  <div class="ds-type-preview">
+    <h2 class="mb-0">A solucao definitiva para atender</h2>
+  </div>
+  <div class="ds-type-spec">50px / auto<br/>Nunito 800</div>
+</div>
+
+<!-- Heading 2 - Sec Title 2 -->
+<div class="ds-type-row">
+  <div class="ds-type-name">Heading 2 (Sec Title 2)</div>
+  <div class="ds-type-preview">
+    <div class="sec-title2 w-100" style="margin-bottom:0;">
+      <div class="d-inline-block">
+        <h2 class="mb-0 text-uppercase text-color14">Como Integrar?</h2>
+      </div>
+    </div>
+  </div>
+  <div class="ds-type-spec">60px / auto<br/>Nunito 800</div>
+</div>
+
+<!-- Heading 2 - About Desc -->
+<div class="ds-type-row">
+  <div class="ds-type-name">Heading 2 (About)</div>
+  <div class="ds-type-preview">
+    <h2 class="mb-0"><span class="text-color14">Envie notificacoes</span></h2>
+  </div>
+  <div class="ds-type-spec">50px / auto<br/>Nunito 800</div>
+</div>
+
+<!-- Heading 3 -->
+<div class="ds-type-row">
+  <div class="ds-type-name">Heading 3</div>
+  <div class="ds-type-preview">
+    <h3 class="mb-0">Transferencia de Atendimentos</h3>
+  </div>
+  <div class="ds-type-spec">24px / auto<br/>Nunito 800</div>
+</div>
+
+<!-- Heading 3 - Service Info 6 -->
+<div class="ds-type-row">
+  <div class="ds-type-name">Heading 3 (Large)</div>
+  <div class="ds-type-preview">
+    <h3 class="mb-0" style="font-size:30px;">API de Integracao</h3>
+  </div>
+  <div class="ds-type-spec">30px / auto<br/>Nunito 800</div>
+</div>
+
+<!-- Heading 5 -->
+<div class="ds-type-row">
+  <div class="ds-type-name">Heading 5</div>
+  <div class="ds-type-preview">
+    <h5 class="mb-0">Monte seu Plano</h5>
+  </div>
+  <div class="ds-type-spec">20px / auto<br/>Nunito 800</div>
+</div>
+
+<!-- Bold L - Gilroy Bold / titlef -->
+<div class="ds-type-row">
+  <div class="ds-type-name">Bold L (Titlef)</div>
+  <div class="ds-type-preview">
+    <div class="titlef" style="padding-bottom:0;">Roberto Dantas</div>
+  </div>
+  <div class="ds-type-spec">30px / auto<br/>Gilroy Bold</div>
+</div>
+
+<!-- Bold M - Sec Title Span -->
+<div class="ds-type-row">
+  <div class="ds-type-name">Bold M (Section Label)</div>
+  <div class="ds-type-preview">
+    <div class="sec-title text-uppercase w-100" style="margin:0;">
+      <span class="d-block">Fale com um consultor</span>
+    </div>
+  </div>
+  <div class="ds-type-spec">18px / auto<br/>Nunito 800</div>
+</div>
+
+<!-- Bold S - Button -->
+<div class="ds-type-row">
+  <div class="ds-type-name">Bold S (Button)</div>
+  <div class="ds-type-preview">
+    <span style="text-transform:uppercase;font-weight:700;font-size:1rem;font-family:Rubik;">Solicitar Contato</span>
+  </div>
+  <div class="ds-type-spec">16px / auto<br/>Rubik 700</div>
+</div>
+
+<!-- Paragraph -->
+<div class="ds-type-row">
+  <div class="ds-type-name">Paragraph</div>
+  <div class="ds-type-preview">
+    <p class="mb-0">Automatize seus processos no WhatsApp e leve seu negocio a outro nivel. Atenda seus clientes 24 horas por dia com nosso sistema.</p>
+  </div>
+  <div class="ds-type-spec">16px / 24px<br/>Rubik 400</div>
+</div>
+
+<!-- Paragraph - Testi -->
+<div class="ds-type-row">
+  <div class="ds-type-name">Paragraph (Testimonial)</div>
+  <div class="ds-type-preview">
+    <p class="mb-0" style="font-size:18px;line-height:1.6667em;">Uma das poucas plataformas de bot que ajuda os desenvolvedores.</p>
+  </div>
+  <div class="ds-type-spec">18px / 1.67em<br/>Rubik 400</div>
+</div>
+
+<!-- Regular S - Service Number -->
+<div class="ds-type-row">
+  <div class="ds-type-name">Regular S (Numbering)</div>
+  <div class="ds-type-preview">
+    <i class="font-style-normal" style="font-family:Rubik;font-size:16px;">01</i>
+  </div>
+  <div class="ds-type-spec">16px / 24px<br/>Rubik 400</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ============================== -->
+<!-- 2) COLORS & SURFACES           -->
+<!-- ============================== -->
+<section id="colors">
+<div class="w-100 bg-color16 pt-120 pb-120">
+<div class="container">
+<span class="ds-section-label" style="color:var(--color14);">Section 02</span>
+<div class="ds-section-title">Colors &amp; Surfaces</div>
+<hr class="ds-divider" style="border-color:var(--color14);"/>
+
+<!-- Primary Colors -->
+<h3 class="mb-30" style="color:var(--color14);">Primary Colors</h3>
+<div class="ds-swatch-grid mb-60">
+  <div class="ds-swatch">
+    <div class="ds-swatch-color bg-color14"></div>
+    <div class="ds-swatch-label">Purple (Primary)</div>
+    <div class="ds-swatch-value">--color14: #4f0a4f</div>
+  </div>
+  <div class="ds-swatch">
+    <div class="ds-swatch-color bg-color32"></div>
+    <div class="ds-swatch-label">Magenta (Accent)</div>
+    <div class="ds-swatch-value">--color32: #d50273</div>
+  </div>
+  <div class="ds-swatch">
+    <div class="ds-swatch-color bg-color10"></div>
+    <div class="ds-swatch-label">Cream (Light)</div>
+    <div class="ds-swatch-value">--color10: #fff4e9</div>
+  </div>
+  <div class="ds-swatch">
+    <div class="ds-swatch-color" style="background-color:var(--color16);"></div>
+    <div class="ds-swatch-label">Pink (Section BG)</div>
+    <div class="ds-swatch-value">--color16: #e9bce9</div>
+  </div>
+</div>
+
+<!-- Secondary Colors -->
+<h3 class="mb-30" style="color:var(--color14);">Secondary Colors</h3>
+<div class="ds-swatch-grid mb-60">
+  <div class="ds-swatch">
+    <div class="ds-swatch-color bg-color1"></div>
+    <div class="ds-swatch-label">Navy (Body Text)</div>
+    <div class="ds-swatch-value">--color1: #142b5f</div>
+  </div>
+  <div class="ds-swatch">
+    <div class="ds-swatch-color bg-color2"></div>
+    <div class="ds-swatch-label">Blue</div>
+    <div class="ds-swatch-value">--color2: #1f5abc</div>
+  </div>
+  <div class="ds-swatch">
+    <div class="ds-swatch-color bg-color7"></div>
+    <div class="ds-swatch-label">Yellow (Theme)</div>
+    <div class="ds-swatch-value">--color7: #ffe27a</div>
+  </div>
+  <div class="ds-swatch">
+    <div class="ds-swatch-color" style="background-color:#676767;"></div>
+    <div class="ds-swatch-label">Gray (Body Copy)</div>
+    <div class="ds-swatch-value">#676767</div>
+  </div>
+</div>
+
+<!-- Background Surfaces -->
+<h3 class="mb-30" style="color:var(--color14);">Background Surfaces</h3>
+<div class="ds-surface-grid">
+  <div class="ds-surface-card" style="background-image: url('assets/bgkrolik_f373415b4d3f.png'); background-size:cover; background-position:center;">
+    <span>Hero BG (bgkrolik)</span>
+  </div>
+  <div class="ds-surface-card bg-color16">
+    <span>Section BG (bg-color16)</span>
+  </div>
+  <div class="ds-surface-card bg-color32" style="color:#fff;">
+    <span style="background:rgba(0,0,0,0.3);color:#fff;">CTA Section (bg-color32)</span>
+  </div>
+  <div class="ds-surface-card" style="background-image: url('assets/ceu2_44f93725dab4.jpg'); background-size:cover; background-position:center;">
+    <span>Sky BG (ceu2)</span>
+  </div>
+  <div class="ds-surface-card" style="background-image: url('assets/bg11_af62fd20cdb9.jpg'); background-size:cover; background-position:center;">
+    <span style="color:#fff;background:rgba(0,0,0,0.5);">Dark Parallax (bg11)</span>
+  </div>
+  <div class="ds-surface-card" style="background-image: url('assets/text-bg_06356b0f21d6.png'); background-size:cover; background-position:center;">
+    <span style="color:#fff;background:rgba(0,0,0,0.4);">Info Card (text-bg)</span>
+  </div>
+</div>
+
+<!-- Wave Decorations -->
+<h3 class="mb-30" style="color:var(--color14);">Decorative Waves</h3>
+<div style="position:relative;height:200px;overflow:hidden;border-radius:1.25rem;background-color:var(--color16);margin-bottom:20px;">
+  <div class="bg-waves">
+    <div class="wave wave-bottom-left">
+      <img alt="Efeito" class="layer" src="assets/bottom-left2_ef29754b73c2.png"/>
+      <img alt="Efeito" class="layer" src="assets/bottom-left1_5828a6ff4297.png"/>
+    </div>
+    <div class="wave wave-bottom-right">
+      <img alt="Efeito" class="layer" src="assets/bottom-right2_99f45aebb250.png"/>
+      <img alt="Efeito" class="layer" src="assets/bottom-right1_6cd4d714d1b9.png"/>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ============================== -->
+<!-- 3) UI COMPONENTS               -->
+<!-- ============================== -->
+<section id="components">
+<div class="w-100 pt-120 pb-120">
+<div class="container">
+<span class="ds-section-label">Section 03</span>
+<div class="ds-section-title">UI Components</div>
+<hr class="ds-divider"/>
+
+<!-- Buttons -->
+<h3 class="mb-30">Buttons</h3>
+
+<!-- fill-btn3 -->
+<h5 class="mb-15" style="color:var(--color32);">Fill Button 3 (Primary Action)</h5>
+<div class="ds-states-row mb-40">
+  <div class="ds-state-item">
+    <span class="ds-state-label">Default</span>
+    <a class="simple-btn theme-btn fill-btn3" href="#" title="">Fale conosco</a>
+  </div>
+  <div class="ds-state-item">
+    <span class="ds-state-label">Hover (mouse over)</span>
+    <a class="simple-btn theme-btn fill-btn3" href="#" title="" style="color:var(--color32);background-color:transparent;border-color:var(--color14);">Fale conosco</a>
+  </div>
+</div>
+
+<!-- fill-btn2 (with-icon) -->
+<h5 class="mb-15" style="color:var(--color32);">Fill Button 2 (With Icon)</h5>
+<div class="ds-states-row mb-40">
+  <div class="ds-state-item">
+    <span class="ds-state-label">Default</span>
+    <a class="theme-btn with-icon fill-btn2" href="#" title="">Solicitar Contato</a>
+  </div>
+  <div class="ds-state-item">
+    <span class="ds-state-label">Hover (mouse over)</span>
+    <a class="theme-btn with-icon fill-btn2" href="#" title="" style="color:var(--color10);background-color:transparent;border-color:var(--color10);">Solicitar Contato</a>
+  </div>
+</div>
+
+<!-- icon-btn fill-btn3 -->
+<h5 class="mb-15" style="color:var(--color32);">Icon Button (Arrow)</h5>
+<div class="ds-states-row mb-40">
+  <div class="ds-state-item">
+    <span class="ds-state-label">Default</span>
+    <a class="icon-btn theme-btn icon-right fill-btn3" href="#" title=""><i class="metaicon-028-arrow-metamax"></i>Ver API<i class="metaicon-028-arrow-metamax"></i></a>
+  </div>
+</div>
+
+<!-- bordered-btn4 (Login) -->
+<h5 class="mb-15" style="color:var(--color32);">Bordered Button 4 (Login)</h5>
+<div class="ds-states-row mb-40" style="background:var(--color14);padding:30px;border-radius:1.25rem;">
+  <div class="ds-state-item">
+    <span class="ds-state-label" style="color:rgba(255,255,255,0.6);">Default</span>
+    <a class="simple-btn theme-btn bordered-btn4" href="#" title="">Login</a>
+  </div>
+  <div class="ds-state-item">
+    <span class="ds-state-label" style="color:rgba(255,255,255,0.6);">Hover (mouse over)</span>
+    <a class="simple-btn theme-btn bordered-btn4" href="#" title="" style="background-color:white;color:var(--color2)!important;">Login</a>
+  </div>
+</div>
+
+<!-- bordered-btn2 (CTA) -->
+<h5 class="mb-15" style="color:var(--color32);">Bordered Button 2 (CTA on Magenta)</h5>
+<div class="ds-states-row mb-40 bg-color32" style="padding:30px;border-radius:1.25rem;">
+  <div class="ds-state-item">
+    <span class="ds-state-label" style="color:rgba(255,255,255,0.6);">Default</span>
+    <a class="icon-btn md-btn ml-0 theme-btn icon-right bordered-btn2" href="#" title=""><i class="metaicon-028-arrow-metamax"></i>Falar com consultor<i class="metaicon-028-arrow-metamax"></i></a>
+  </div>
+</div>
+
+<!-- Cards -->
+<h3 class="mb-30 mt-60">Service Card</h3>
+<div class="row" style="max-width:800px;">
+  <div class="col-md-6 mb-30">
+    <div class="service-box-wrap">
+      <div class="service-box">
+        <span class="icon">
+          <i class="svg">
+            <img alt="Transferencia" src="assets/transfer_86e690ee33d5.svg" width="120px"/>
+          </i>
+        </span>
+        <div class="service-info">
+          <i class="font-style-normal">01</i>
+          <h3 class="mb-0">Transferencia de Atendimentos</h3>
+          <p class="mb-0">Faca transferencia de chats entre operadores e setores dentro da plataforma.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 mb-30">
+    <div class="service-box-wrap hover">
+      <div class="service-box">
+        <span class="icon">
+          <i class="svg">
+            <img alt="Multiplos" src="assets/multiple-users_2c68278bed78.svg" width="120px"/>
+          </i>
+        </span>
+        <div class="service-info">
+          <i class="font-style-normal">02</i>
+          <h3 class="mb-0">Multiplos Atendentes</h3>
+          <p class="mb-0">Atenda a diversos clientes com diversos atendentes ao mesmo tempo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Testimonial Card -->
+<h3 class="mb-30 mt-60">Testimonial Card</h3>
+<div class="row" style="max-width:800px;">
+  <div class="col-md-6 mb-30">
+    <div class="testi-box-wrap2">
+      <div class="testi-box style2 w-100">
+        <div class="testi-info">
+          <div class="testi-info-inner">
+            <div class="titlef">Roberto Dantas</div>
+            <span class="d-block">Usuario</span>
+          </div>
+        </div>
+        <p class="mb-0">E uma das poucas plataformas de bot que ajuda os desenvolvedores e nao cobra um rim para usar.</p>
+        <span class="d-block star-rating"><i class="metaicon-star-in-black-of-five-points-shape on"></i><i class="metaicon-star-in-black-of-five-points-shape on"></i><i class="metaicon-star-in-black-of-five-points-shape on"></i><i class="metaicon-star-in-black-of-five-points-shape on"></i><i class="metaicon-star-in-black-of-five-points-shape on"></i></span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 mb-30">
+    <div class="testi-box-wrap2" style="box-shadow: 0 20px 45px 0 rgba(26,57,127, 0.1);">
+      <div class="testi-box style2 w-100">
+        <div class="testi-info">
+          <div class="testi-info-inner">
+            <div class="titlef">Afonso Moura</div>
+            <span class="d-block">Usuario</span>
+          </div>
+        </div>
+        <p class="mb-0">Plataforma extremamente amigavel e intuitiva para quem nao possui tanto conhecimento tecnico.</p>
+        <span class="d-block star-rating"><i class="metaicon-star-in-black-of-five-points-shape on"></i><i class="metaicon-star-in-black-of-five-points-shape on"></i><i class="metaicon-star-in-black-of-five-points-shape on"></i><i class="metaicon-star-in-black-of-five-points-shape on"></i><i class="metaicon-star-in-black-of-five-points-shape off"></i></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Service Box 6 (Dark) -->
+<h3 class="mb-30 mt-60">Service Box 6 (Dark Parallax)</h3>
+<div class="w-100 position-relative" style="border-radius:1.25rem;overflow:hidden;">
+  <div class="fixed-bg" style='background-image: url("assets/bg11_af62fd20cdb9.jpg");'></div>
+  <div class="service-wrap6 w-100">
+    <div class="row mrg">
+      <div class="col-md-6 col-lg-6">
+        <div class="service-box6 text-white text-center w-100 position-relative">
+          <i class="d-inline-block metaicon-website-1 text-color10"></i>
+          <div class="service-info6 w-100">
+            <h3 class="mb-0"><span class="text-color10">API de Integracao</span></h3>
+            <p class="mb-0"><span class="text-color10">Configure sua aplicacao e te enviaremos uma requisicao toda vez que seu canal receber uma mensagem.</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="service-box6 text-white text-center w-100 position-relative">
+          <i class="d-inline-block metaicon-seo-and-web text-color10"></i>
+          <div class="service-info6 w-100">
+            <h3 class="mb-0"><span class="text-color10">Processos Automatizados</span></h3>
+            <p class="mb-0"><span class="text-color10">Automatize os processos do seu negocio com envio de segunda via de boleto e consulta de informacoes.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Form / Input -->
+<h3 class="mb-30 mt-60">Form Input</h3>
+<div class="bg-color32 pt-60 pb-60" style="border-radius:1.25rem;padding-left:30px;padding-right:30px;">
+  <div class="check-website-form w-100">
+    <div class="row align-items-center">
+      <div class="col-md-5 col-sm-12 col-lg-4">
+        <div class="sec-title text-uppercase w-100">
+          <span class="d-block" style="color:var(--color10);">Fale com um consultor</span>
+          <h2 class="mb-0" style="color:#fff;">Deixe seu Telefone</h2>
+        </div>
+      </div>
+      <div class="col-md-7 col-sm-12 col-lg-8">
+        <div class="form-wrap position-relative w-100">
+          <form class="w-100 d-flex" onsubmit="return false;">
+            <div class="input-field w-100 position-relative">
+              <input placeholder="Seu numero de telefone" type="url"/>
+              <span class="field-counter">+55</span>
+            </div>
+            <div class="form-button">
+              <a class="theme-btn with-icon fill-btn2" href="#" onclick="return false;">Solicitar Contato</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Banner Box -->
+<h3 class="mb-30 mt-60">Banner Box (CTA)</h3>
+<div class="bg-color32" style="border-radius:1.25rem;overflow:hidden;">
+  <div class="banner-box style2 bg-color32 text-center brd-rd20 w-100" style="margin-top:0;">
+    <h3 class="mb-0">Tem duvidas? Fale com um consultor pelo whatsapp.</h3>
+    <a class="icon-btn md-btn ml-0 mt-30 theme-btn icon-right bordered-btn2" href="#" title=""><i class="metaicon-028-arrow-metamax"></i>Falar com consultor<i class="metaicon-028-arrow-metamax"></i></a>
+  </div>
+</div>
+
+<!-- About Info Card -->
+<h3 class="mb-30 mt-60">About Info Card</h3>
+<div class="row" style="max-width:600px;">
+  <div class="col-12">
+    <div class="about-info-cap overflow-hidden w-100" style='background-image: url("assets/text-bg_06356b0f21d6.png");'>
+      <h2 class="mb-0 text-white"><span class="text-color10">Seus clientes mudaram.</span><br/><span class="text-color10">O mesmo deve acontecer com seu atendimento.</span></h2>
+      <p class="mb-0 text-white"><span class="text-color10">O melhor software de mensagens Omnichannel ajuda sua equipe a aumentar a produtividade.</span></p>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ============================== -->
+<!-- 4) LAYOUT & SPACING            -->
+<!-- ============================== -->
+<section id="layout">
+<div class="w-100 bg-color16 pt-120 pb-120">
+<div class="container">
+<span class="ds-section-label" style="color:var(--color14);">Section 04</span>
+<div class="ds-section-title">Layout &amp; Spacing</div>
+<hr class="ds-divider" style="border-color:var(--color14);"/>
+
+<!-- Container -->
+<h3 class="mb-30" style="color:var(--color14);">Container</h3>
+<p class="mb-30">Max-width: <code>73.125rem (1170px)</code> &mdash; padding: 0</p>
+<div class="ds-layout-demo mb-60">.container &mdash; max-width: 73.125rem</div>
+
+<!-- Grid: 2-Column Split -->
+<h3 class="mb-30" style="color:var(--color14);">2-Column Split (About Layout)</h3>
+<div class="row align-items-center mb-60">
+  <div class="col-10 offset-1 offset-md-0 col-md-6 col-sm-12 col-lg-6 text-center">
+    <div class="ds-layout-demo" style="min-height:200px;">Image Column<br/>col-md-6 / col-lg-6</div>
+  </div>
+  <div class="col-10 offset-1 offset-md-0 col-md-6 col-sm-12 col-lg-6">
+    <div class="ds-layout-demo" style="min-height:200px;">Content Column<br/>col-md-6 / col-lg-6<br/>.about-desc</div>
+  </div>
+</div>
+
+<!-- Grid: 3-Column -->
+<h3 class="mb-30" style="color:var(--color14);">3-Column Grid (Services Dark)</h3>
+<div class="row mrg mb-60">
+  <div class="col-md-4 col-sm-6 col-lg-4">
+    <div class="ds-layout-demo" style="min-height:150px;">col-md-4 / col-lg-4<br/>.service-box6</div>
+  </div>
+  <div class="col-md-4 col-sm-6 col-lg-4">
+    <div class="ds-layout-demo" style="min-height:150px;">col-md-4 / col-lg-4<br/>.service-box6</div>
+  </div>
+  <div class="col-md-4 col-sm-6 col-lg-4">
+    <div class="ds-layout-demo" style="min-height:150px;">col-md-4 / col-lg-4<br/>.service-box6</div>
+  </div>
+</div>
+
+<!-- Service Grid (Flex Wrap) -->
+<h3 class="mb-30" style="color:var(--color14);">Service Grid (Flex Wrap)</h3>
+<p class="mb-20">Used for the feature cards. <code>ul.d-flex.flex-wrap > li > .service-box-wrap</code></p>
+<div class="service-wrap w-100 mb-60">
+  <ul class="mb-0 px-5 px-sm-0 list-unstyled d-flex flex-wrap w-100">
+    <li><div class="ds-layout-demo" style="min-height:120px;margin:10px;">service-box-wrap</div></li>
+    <li><div class="ds-layout-demo" style="min-height:120px;margin:10px;">service-box-wrap</div></li>
+    <li><div class="ds-layout-demo" style="min-height:120px;margin:10px;">service-box-wrap</div></li>
+    <li><div class="ds-layout-demo" style="min-height:120px;margin:10px;">service-box-wrap</div></li>
+  </ul>
+</div>
+
+<!-- Roadmap (Horizontal Steps) -->
+<h3 class="mb-30" style="color:var(--color14);">Roadmap / Steps Layout</h3>
+<div class="roadmap-wrap text-center w-100 position-relative d-flex flex-nowrap flex-row justify-content-between align-items-start mb-60">
+  <div class="roadmap-item color1 position-relative">
+    <span class="d-inline-block position-absolute roadmap-icon">
+      <img alt="Plano" src="assets/plan_1181df78182d.svg" width="130px"/>
+    </span>
+    <span class="d-inline-block roadmap-label"><i class="font-style-normal">01</i></span>
+    <h5 class="mb-0">Monte seu Plano</h5>
+  </div>
+  <div class="roadmap-item color2 position-relative">
+    <span class="d-inline-block position-absolute roadmap-icon"><img alt="Cadastre" src="assets/adduser_296f767a35eb.svg" width="130px"/></span>
+    <span class="d-inline-block roadmap-label"><i class="font-style-normal">02</i></span>
+    <h5 class="mb-0">Cadastre seus Usuarios</h5>
+  </div>
+  <div class="roadmap-item color3 position-relative">
+    <span class="d-inline-block position-absolute roadmap-icon"><img alt="Fluxo" src="assets/fluxo_d0c57a88cd8d.svg" width="130px"/></span>
+    <span class="d-inline-block roadmap-label"><i class="font-style-normal">03</i></span>
+    <h5 class="mb-0">Crie um Fluxo</h5>
+  </div>
+  <div class="roadmap-item color4 position-relative">
+    <span class="d-inline-block position-absolute roadmap-icon"><img alt="Conecte" src="assets/checked_670a54a20c0c.svg" width="50px"/></span>
+    <span class="d-inline-block roadmap-label"><i class="font-style-normal">04</i></span>
+    <h5 class="mb-0">Conecte e Pronto!</h5>
+  </div>
+</div>
+
+<!-- Spacing Scale -->
+<h3 class="mb-30" style="color:var(--color14);">Spacing Scale</h3>
+<div style="display:flex;flex-wrap:wrap;gap:15px;margin-bottom:40px;">
+  <div style="text-align:center;">
+    <div style="width:60px;height:10px;background:var(--color14);border-radius:3px;" class="pt-10"></div>
+    <span style="font-family:monospace;font-size:12px;color:#999;">pt-10<br/>0.625rem</span>
+  </div>
+  <div style="text-align:center;">
+    <div style="width:60px;height:20px;background:var(--color14);border-radius:3px;" class="pt-20"></div>
+    <span style="font-family:monospace;font-size:12px;color:#999;">pt-20<br/>1.25rem</span>
+  </div>
+  <div style="text-align:center;">
+    <div style="width:60px;height:30px;background:var(--color14);border-radius:3px;"></div>
+    <span style="font-family:monospace;font-size:12px;color:#999;">pt-30<br/>1.875rem</span>
+  </div>
+  <div style="text-align:center;">
+    <div style="width:60px;height:40px;background:var(--color14);border-radius:3px;"></div>
+    <span style="font-family:monospace;font-size:12px;color:#999;">pt-60<br/>3.75rem</span>
+  </div>
+  <div style="text-align:center;">
+    <div style="width:60px;height:60px;background:var(--color14);border-radius:3px;"></div>
+    <span style="font-family:monospace;font-size:12px;color:#999;">pt-100<br/>6.25rem</span>
+  </div>
+  <div style="text-align:center;">
+    <div style="width:60px;height:80px;background:var(--color14);border-radius:3px;"></div>
+    <span style="font-family:monospace;font-size:12px;color:#999;">pt-120<br/>7.5rem</span>
+  </div>
+  <div style="text-align:center;">
+    <div style="width:60px;height:100px;background:var(--color32);border-radius:3px;"></div>
+    <span style="font-family:monospace;font-size:12px;color:#999;">pt-200<br/>12.5rem</span>
+  </div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ============================== -->
+<!-- 5) MOTION & INTERACTION        -->
+<!-- ============================== -->
+<section id="motion">
+<div class="w-100 pt-120 pb-120">
+<div class="container">
+<span class="ds-section-label">Section 05</span>
+<div class="ds-section-title">Motion &amp; Interaction</div>
+<hr class="ds-divider"/>
+
+<h3 class="mb-30">Transitions</h3>
+<p class="mb-10"><code>--transition: all 0.2s cubic-bezier(0.19, 0.68, 0.49, 1.21)</code> &mdash; Bouncy micro-interactions</p>
+<p class="mb-40"><code>--transition2: all .3s linear</code> &mdash; Smooth state changes (default for most elements)</p>
+
+<h3 class="mb-30">Motion Gallery</h3>
+<div class="ds-motion-grid mb-60">
+
+  <!-- Hover Lift -->
+  <div class="ds-motion-card">
+    <div class="ds-motion-target"></div>
+    <div class="ds-motion-label">Hover Lift + Shadow</div>
+    <div class="ds-motion-desc">Service cards, testi cards<br/>transition: all .3s linear</div>
+  </div>
+
+  <!-- Pulse Animation -->
+  <div class="ds-motion-card">
+    <div class="ds-pulse-target"></div>
+    <div class="ds-motion-label">Pulse (Keyframe)</div>
+    <div class="ds-motion-desc">@keyframes pulse-hex<br/>scale(1) to scale(1.3)</div>
+  </div>
+
+  <!-- Scale on Hover -->
+  <div class="ds-motion-card">
+    <div class="ds-motion-target ds-transition-demo"></div>
+    <div class="ds-motion-label">Scale Transition</div>
+    <div class="ds-motion-desc">var(--transition)<br/>cubic-bezier(0.19, 0.68, 0.49, 1.21)</div>
+  </div>
+
+</div>
+
+<!-- Button Hover Demo -->
+<h3 class="mb-30">Button Hover Transitions</h3>
+<p class="mb-20">Hover over each button to see its transition. All buttons use <code>transition: var(--transition2)</code>.</p>
+<div class="ds-states-row mb-40">
+  <a class="simple-btn theme-btn fill-btn3" href="#" onclick="return false;">fill-btn3</a>
+  <a class="theme-btn with-icon fill-btn2" href="#" onclick="return false;">fill-btn2</a>
+  <a class="simple-btn theme-btn bordered-btn4" href="#" onclick="return false;" style="color:var(--color14);border-color:var(--color14);">bordered-btn4</a>
+</div>
+
+<!-- Service Card Hover -->
+<h3 class="mb-30">Service Card Hover</h3>
+<p class="mb-20">Hover over the card. The <code>.service-box-wrap</code> gains a glow via <code>::before</code> pseudo-element and the icon changes color.</p>
+<div style="max-width:400px;">
+  <div class="service-box-wrap">
+    <div class="service-box">
+      <span class="icon">
+        <i class="svg">
+          <img alt="API" src="assets/api_994ac67eec76.svg" width="120px"/>
+        </i>
+      </span>
+      <div class="service-info">
+        <i class="font-style-normal">06</i>
+        <h3 class="mb-0">API de Integracao</h3>
+        <p class="mb-0">Integre o seu sistema e automatize processos de forma facil, rapida e eficaz.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Service Box 6 Hover -->
+<h3 class="mb-30 mt-60">Service Box 6 Hover</h3>
+<p class="mb-20">Hover background: <code>rgba(20,43,95,0.5)</code>.</p>
+<div class="w-100 position-relative" style="border-radius:1.25rem;overflow:hidden;max-width:400px;">
+  <div class="fixed-bg" style='background-image: url("assets/bg11_af62fd20cdb9.jpg");'></div>
+  <div class="service-wrap6 w-100">
+    <div class="row mrg">
+      <div class="col-12">
+        <div class="service-box6 text-white text-center w-100 position-relative">
+          <i class="d-inline-block metaicon-idea-2 text-color10"></i>
+          <div class="service-info6 w-100">
+            <h3 class="mb-0"><span class="text-color10">Sempre Atualizado</span></h3>
+            <p class="mb-0"><span class="text-color10">Conte com os recursos mais recentes.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ============================== -->
+<!-- 6) ICONS                       -->
+<!-- ============================== -->
+<section id="icons">
+<div class="w-100 bg-color16 pt-120 pb-120">
+<div class="container">
+<span class="ds-section-label" style="color:var(--color14);">Section 06</span>
+<div class="ds-section-title">Icons</div>
+<hr class="ds-divider" style="border-color:var(--color14);"/>
+
+<!-- SVG Icons (Custom) -->
+<h3 class="mb-30" style="color:var(--color14);">SVG Feature Icons</h3>
+<p class="mb-30">Custom SVG illustrations used in the service grid. Rendered as <code>&lt;img&gt;</code> inside <code>&lt;i class="svg"&gt;</code>.</p>
+<div class="ds-icon-grid mb-60">
+  <div class="ds-icon-item">
+    <img alt="Transfer" src="assets/transfer_86e690ee33d5.svg"/>
+    <span>transfer</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="Multiple Users" src="assets/multiple-users_2c68278bed78.svg"/>
+    <span>multiple-users</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="Multi Numbers" src="assets/multi-numbers_2d0416f43762.svg"/>
+    <span>multi-numbers</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="24 Hours" src="assets/24hours_db3c223d2075.svg"/>
+    <span>24hours</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="Historic" src="assets/historic_b50d1db4bd99.svg"/>
+    <span>historic</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="API" src="assets/api_994ac67eec76.svg"/>
+    <span>api</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="Skills" src="assets/skills_4c1a3f2c37f6.svg"/>
+    <span>skills</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="Dashboard" src="assets/dashboard_fc9a5e8d08ad.svg"/>
+    <span>dashboard</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="Group Users" src="assets/group-users_52d334965824.svg"/>
+    <span>group-users</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="Business" src="assets/business_29c7183e4ef7.svg"/>
+    <span>business</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="Smartphone" src="assets/smartphone_6ad78393737c.svg"/>
+    <span>smartphone</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="Privacy" src="assets/privacy_e338217cc448.svg"/>
+    <span>privacy</span>
+  </div>
+</div>
+
+<!-- Roadmap Icons -->
+<h3 class="mb-30" style="color:var(--color14);">Roadmap Step Icons</h3>
+<div class="ds-icon-grid mb-60">
+  <div class="ds-icon-item">
+    <img alt="Plan" src="assets/plan_1181df78182d.svg"/>
+    <span>plan</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="Add User" src="assets/adduser_296f767a35eb.svg"/>
+    <span>adduser</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="Fluxo" src="assets/fluxo_d0c57a88cd8d.svg"/>
+    <span>fluxo</span>
+  </div>
+  <div class="ds-icon-item">
+    <img alt="Checked" src="assets/checked_670a54a20c0c.svg"/>
+    <span>checked</span>
+  </div>
+</div>
+
+<!-- Metaicon Font Icons -->
+<h3 class="mb-30" style="color:var(--color14);">Metaicon Font Icons</h3>
+<p class="mb-30">Icon font used for UI elements (arrows, stars, nav icons). Rendered via <code>&lt;i class="metaicon-*"&gt;</code>.</p>
+<div class="ds-icon-grid mb-60">
+  <div class="ds-icon-item">
+    <i class="metaicon-028-arrow-metamax" style="font-size:40px;color:var(--color14);"></i>
+    <span>metaicon-028-arrow-metamax</span>
+  </div>
+  <div class="ds-icon-item">
+    <i class="metaicon-star-in-black-of-five-points-shape on" style="font-size:40px;"></i>
+    <span>star (on)</span>
+  </div>
+  <div class="ds-icon-item">
+    <i class="metaicon-star-in-black-of-five-points-shape off" style="font-size:40px;"></i>
+    <span>star (off)</span>
+  </div>
+  <div class="ds-icon-item">
+    <i class="metaicon-website-1" style="font-size:40px;color:var(--color14);"></i>
+    <span>metaicon-website-1</span>
+  </div>
+  <div class="ds-icon-item">
+    <i class="metaicon-seo-and-web" style="font-size:40px;color:var(--color14);"></i>
+    <span>metaicon-seo-and-web</span>
+  </div>
+  <div class="ds-icon-item">
+    <i class="metaicon-idea-2" style="font-size:40px;color:var(--color14);"></i>
+    <span>metaicon-idea-2</span>
+  </div>
+  <div class="ds-icon-item">
+    <i class="metaicon-cancel-music" style="font-size:40px;color:var(--color14);"></i>
+    <span>metaicon-cancel-music</span>
+  </div>
+</div>
+
+<!-- Font Awesome Icons -->
+<h3 class="mb-30" style="color:var(--color14);">Font Awesome Icons (Used)</h3>
+<div class="ds-icon-grid">
+  <div class="ds-icon-item">
+    <i class="fas fa-align-justify" style="font-size:40px;color:var(--color14);"></i>
+    <span>fa-align-justify</span>
+  </div>
+  <div class="ds-icon-item">
+    <i class="fas fa-phone-alt" style="font-size:40px;color:var(--color14);"></i>
+    <span>fa-phone-alt</span>
+  </div>
+  <div class="ds-icon-item">
+    <i class="fab fa-whatsapp" style="font-size:40px;color:var(--color14);"></i>
+    <span>fa-whatsapp</span>
+  </div>
+  <div class="ds-icon-item">
+    <i class="fab fa-instagram" style="font-size:40px;color:var(--color14);"></i>
+    <span>fa-instagram</span>
+  </div>
+</div>
+
+</div>
+</div>
+</section>
+
+</main>
+
+<script src="assets/jquery_261f1b77b7d7.js"></script>
+<script src="assets/popper_679cbfdf4f23.js"></script>
+<script src="assets/bootstrap_e8032fc6dc6e.js"></script>
+<script src="assets/perfect-scrollbar_8989780064fc.js"></script>
+<script src="assets/custom-scripts_8ff49ce59239.js"></script>
+<script>
+  // Smooth scroll for nav anchors
+  document.querySelectorAll('.ds-nav a').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        window.scrollTo({
+          top: target.offsetTop - 48,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+</script>
+</body>
+</html>
